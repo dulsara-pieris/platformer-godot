@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://dfq7nrf8ybkf4"]
+
+[ext_resource type="Script" uid="uid://bo6u7rof6cqs5" path="res://Scripts/ui_main.gd" id="1_vdx70"]
+
+[node name="CanvasModulate" type="CanvasModulate" unique_id=1254253697]
+script = ExtResource("1_vdx70")
+
+[node name="Button" type="Button" parent="." unique_id=1931587353]
+offset_left = -25.5
+offset_top = -90.0
+offset_right = 25.5
+offset_bottom = -59.0
+text = "HOST"
+
+[node name="Button2" type="Button" parent="." unique_id=231312903]
+offset_left = -21.5
+offset_top = -15.5
+offset_right = 21.5
+offset_bottom = 15.5
+text = "JOIN"
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=509907419]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=579272823]
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
