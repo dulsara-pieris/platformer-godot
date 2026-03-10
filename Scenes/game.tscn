@@ -5,6 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://bxkks7rx41qy8" path="res://Scenes/player.tscn" id="2_qxrlw"]
 [ext_resource type="Texture2D" uid="uid://guoffhv2dci7" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/waterfall_anim_strip_4.png" id="2_wrm1d"]
 [ext_resource type="PackedScene" uid="uid://b2caoa8nq8hkl" path="res://Scenes/paralax.tscn" id="4_3dryh"]
+[ext_resource type="Script" uid="uid://bsb7gt0hd5r62" path="res://Scripts/leaves.gd" id="6_1l0tm"]
+[ext_resource type="Texture2D" uid="uid://gladtdk38awx" path="res://platformer_metroidvania asset pack v1.01/leaf.png" id="6_i6g32"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qxrlw"]
 texture = ExtResource("1_ebmjs")
@@ -203,6 +205,83 @@ zoom = Vector2(2.5, 2.5)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 
+[node name="VFX" type="Node" parent="Player" unique_id=408137067]
+
+[node name="LeavesParticles" type="CPUParticles2D" parent="Player" unique_id=756430349]
+position = Vector2(-150, -150)
+scale = Vector2(0.6666667, 0.6666667)
+amount = 60
+texture = ExtResource("6_i6g32")
+lifetime = 8.129999999999999
+gravity = Vector2(0, 20)
+initial_velocity_max = 150.0
+angular_velocity_min = 1.0
+angular_velocity_max = 10.0
+angle_max = 10.0
+scale_amount_min = 0.1
+scale_amount_max = 0.15
+script = ExtResource("6_1l0tm")
+
+[node name="LeavesParticles2" type="CPUParticles2D" parent="Player" unique_id=685767213]
+position = Vector2(200, -150)
+scale = Vector2(0.6666667, 0.6666667)
+amount = 60
+texture = ExtResource("6_i6g32")
+lifetime = 8.129999999999999
+gravity = Vector2(0, 20)
+initial_velocity_max = 150.0
+angular_velocity_min = 1.0
+angular_velocity_max = 10.0
+angle_max = 10.0
+scale_amount_min = 0.1
+scale_amount_max = 0.15
+script = ExtResource("6_1l0tm")
+
+[node name="LeavesParticles3" type="CPUParticles2D" parent="Player" unique_id=1703268918]
+position = Vector2(-350, -150)
+scale = Vector2(0.6666667, 0.6666667)
+amount = 60
+texture = ExtResource("6_i6g32")
+lifetime = 8.129999999999999
+gravity = Vector2(0, 20)
+initial_velocity_max = 150.0
+angular_velocity_min = 1.0
+angular_velocity_max = 10.0
+angle_max = 10.0
+scale_amount_min = 0.1
+scale_amount_max = 0.15
+script = ExtResource("6_1l0tm")
+
+[node name="LeavesParticles4" type="CPUParticles2D" parent="Player" unique_id=1406496669]
+position = Vector2(550, -150)
+scale = Vector2(0.6666667, 0.6666667)
+amount = 60
+texture = ExtResource("6_i6g32")
+lifetime = 8.129999999999999
+gravity = Vector2(0, 20)
+initial_velocity_max = 150.0
+angular_velocity_min = 1.0
+angular_velocity_max = 10.0
+angle_max = 10.0
+scale_amount_min = 0.1
+scale_amount_max = 0.15
+script = ExtResource("6_1l0tm")
+
+[node name="LeavesParticles5" type="CPUParticles2D" parent="Player" unique_id=811602137]
+position = Vector2(-700, -150)
+scale = Vector2(0.6666667, 0.6666667)
+amount = 60
+texture = ExtResource("6_i6g32")
+lifetime = 8.129999999999999
+gravity = Vector2(0, 20)
+initial_velocity_max = 150.0
+angular_velocity_min = 1.0
+angular_velocity_max = 10.0
+angle_max = 10.0
+scale_amount_min = 0.1
+scale_amount_max = 0.15
+script = ExtResource("6_1l0tm")
+
 [node name="ParallaxBackground" parent="." unique_id=256027559 instance=ExtResource("4_3dryh")]
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1966461478]
@@ -212,8 +291,6 @@ position = Vector2(25, 416)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=938842992]
 position = Vector2(-4, 12)
 shape = SubResource("WorldBoundaryShape2D_3dryh")
-
-[node name="Node" type="Node" parent="." unique_id=408137067]
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1568618386]
 

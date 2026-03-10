@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://e517rkrv5vst"]
+
+[ext_resource type="FontFile" uid="uid://om5e83td5r53" path="res://fonts/karmatic/ka1.ttf" id="1_2fwl4"]
+[ext_resource type="FontFile" uid="uid://bmn7efysl0jc8" path="res://fonts/byte/ByteBounce.ttf" id="2_dajm1"]
+[ext_resource type="Texture2D" uid="uid://bll1v8fym7mq4" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/background.png" id="3_nm1m0"]
+[ext_resource type="Texture2D" uid="uid://0l16g5c1nwb0" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/bg_0.png" id="4_c7tqi"]
+[ext_resource type="Texture2D" uid="uid://c1snjgpe2jw1s" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/bg_1.png" id="5_cbfhl"]
+[ext_resource type="Texture2D" uid="uid://cqp3nf67058n8" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/bg_2.png" id="6_4fiuh"]
+
+[node name="CanvasModulate" type="CanvasModulate" unique_id=1991018634]
+
+[node name="bg" type="Node" parent="." unique_id=1932614539]
+
+[node name="Background" type="Sprite2D" parent="bg" unique_id=889226300]
+z_index = -1
+position = Vector2(30.216553, 86.42505)
+scale = Vector2(4.8166666, 4.11875)
+texture = ExtResource("3_nm1m0")
+
+[node name="Background2" type="Sprite2D" parent="bg" unique_id=668898147]
+z_index = -1
+position = Vector2(1097.0333, 559.6282)
+scale = Vector2(14.350277, 10.920352)
+texture = ExtResource("4_c7tqi")
+
+[node name="Background3" type="Sprite2D" parent="bg" unique_id=1615040700]
+z_index = -1
+position = Vector2(-20.000042, -11.500011)
+scale = Vector2(4.8499994, 3.9937503)
+texture = ExtResource("5_cbfhl")
+
+[node name="Background4" type="Sprite2D" parent="bg" unique_id=450959239]
+z_index = -1
+position = Vector2(35.03322, 76.128174)
+scale = Vector2(23.200277, 16.964102)
+texture = ExtResource("6_4fiuh")
+
+[node name="Label" type="Label" parent="." unique_id=934801380]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -254.5
+offset_top = -258.0
+offset_right = 254.5
+offset_bottom = -121.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("1_2fwl4")
+theme_override_font_sizes/font_size = 100
+text = "Platformia"
+metadata/_edit_use_anchors_ = true
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1800412685]
+
+[node name="Button" type="Button" parent="." unique_id=2067716920]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -28.0
+offset_top = -15.5
+offset_right = 28.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_dajm1")
+theme_override_font_sizes/font_size = 75
+text = "START"
+metadata/_edit_use_anchors_ = true
