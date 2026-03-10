@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://guoffhv2dci7" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/waterfall_anim_strip_4.png" id="2_wrm1d"]
 [ext_resource type="PackedScene" uid="uid://b2caoa8nq8hkl" path="res://Scenes/paralax.tscn" id="4_3dryh"]
 [ext_resource type="Script" uid="uid://bsb7gt0hd5r62" path="res://Scripts/leaves.gd" id="6_1l0tm"]
-[ext_resource type="Texture2D" uid="uid://gladtdk38awx" path="res://platformer_metroidvania asset pack v1.01/leaf.png" id="6_i6g32"]
+[ext_resource type="Texture2D" uid="uid://b5h6siqmog551" path="res://platformer_metroidvania asset pack v1.01/leaf.png" id="6_i6g32"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qxrlw"]
 texture = ExtResource("1_ebmjs")
