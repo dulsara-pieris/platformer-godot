@@ -210,9 +210,10 @@ position_smoothing_speed = 10.0
 [node name="LeavesParticles" type="CPUParticles2D" parent="Player" unique_id=756430349]
 position = Vector2(-150, -150)
 scale = Vector2(0.6666667, 0.6666667)
-amount = 60
+amount = 40
 texture = ExtResource("6_i6g32")
 lifetime = 8.129999999999999
+spread = 180.0
 gravity = Vector2(0, 20)
 initial_velocity_max = 150.0
 angular_velocity_min = 1.0
@@ -225,9 +226,10 @@ script = ExtResource("6_1l0tm")
 [node name="LeavesParticles2" type="CPUParticles2D" parent="Player" unique_id=685767213]
 position = Vector2(200, -150)
 scale = Vector2(0.6666667, 0.6666667)
-amount = 60
+amount = 40
 texture = ExtResource("6_i6g32")
 lifetime = 8.129999999999999
+spread = 180.0
 gravity = Vector2(0, 20)
 initial_velocity_max = 150.0
 angular_velocity_min = 1.0
@@ -240,9 +242,10 @@ script = ExtResource("6_1l0tm")
 [node name="LeavesParticles3" type="CPUParticles2D" parent="Player" unique_id=1703268918]
 position = Vector2(-350, -150)
 scale = Vector2(0.6666667, 0.6666667)
-amount = 60
+amount = 40
 texture = ExtResource("6_i6g32")
 lifetime = 8.129999999999999
+spread = 180.0
 gravity = Vector2(0, 20)
 initial_velocity_max = 150.0
 angular_velocity_min = 1.0
@@ -255,9 +258,10 @@ script = ExtResource("6_1l0tm")
 [node name="LeavesParticles4" type="CPUParticles2D" parent="Player" unique_id=1406496669]
 position = Vector2(550, -150)
 scale = Vector2(0.6666667, 0.6666667)
-amount = 60
+amount = 40
 texture = ExtResource("6_i6g32")
 lifetime = 8.129999999999999
+spread = 180.0
 gravity = Vector2(0, 20)
 initial_velocity_max = 150.0
 angular_velocity_min = 1.0
@@ -270,9 +274,26 @@ script = ExtResource("6_1l0tm")
 [node name="LeavesParticles5" type="CPUParticles2D" parent="Player" unique_id=811602137]
 position = Vector2(-700, -150)
 scale = Vector2(0.6666667, 0.6666667)
-amount = 60
+amount = 40
 texture = ExtResource("6_i6g32")
 lifetime = 8.129999999999999
+spread = 180.0
+gravity = Vector2(0, 20)
+initial_velocity_max = 150.0
+angular_velocity_min = 1.0
+angular_velocity_max = 10.0
+angle_max = 10.0
+scale_amount_min = 0.1
+scale_amount_max = 0.15
+script = ExtResource("6_1l0tm")
+
+[node name="LeavesParticles6" type="CPUParticles2D" parent="Player" unique_id=1224031473]
+position = Vector2(1003.3333, -185.99998)
+scale = Vector2(0.44444448, 0.44444448)
+amount = 40
+texture = ExtResource("6_i6g32")
+lifetime = 8.129999999999999
+spread = 180.0
 gravity = Vector2(0, 20)
 initial_velocity_max = 150.0
 angular_velocity_min = 1.0
