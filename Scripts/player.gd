@@ -14,7 +14,13 @@ const gravity = 1.3
 var coyote_timer = 0.15
 const coyote_time = 0.15
 
+var jump_buffer_time = 0.15
+var jump_buffer_timer = 0.0
+
 var run = 1 #for accelaration
+
+func _ready() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 func _physics_process(delta: float) -> void:
 	#moving stuff
 	var direction := Input.get_axis("ui_left", "ui_right")
@@ -31,13 +37,28 @@ func _physics_process(delta: float) -> void:
 		character.play("idle")
 		run = 1
 
-	if Input.is_action_just_pressed("ui_accept") and coyote_timer > 0:
+	if Input.is_action_just_pressed("ui_accept"):
+		jump_buffer_timer = jump_buffer_time
+	else:
+		jump_buffer_timer -=delta
+
+	if jump_buffer_timer > 0 and coyote_timer > 0:
 		velocity.y = JUMP_VELOCITY
 		coyote_timer = 0
+		shake_strength = 6
 		character.play("jump")
 		jump_dust.visible = true
 		jump_dust.play("default")
-		shake_strength = 3
+
+	if shake_strength > 0:
+		camera.offset = Vector2(
+			randf_range(-shake_strength, shake_strength),
+			randf_range(-shake_strength, shake_strength)
+		)
+		shake_strength *= 0.9
+	else:
+		camera.offset = Vector2.ZERO
+
 
 	if is_on_floor():
 		coyote_timer = coyote_time
@@ -48,15 +69,8 @@ func _physics_process(delta: float) -> void:
 	#max acceleration
 	if run > 1.8:
 		run = 1.8
-	
-	if shake_strength > 0:
-		camera.offset = Vector2(
-			randf_range(-shake_strength, shake_strength),
-			randf_range(-shake_strength, shake_strength)
-		)
-		shake_strength *= 0.9
-	else:
-		camera.offset = Vector2.ZERO
+		shake_strength = 0.5
+		
 	move_and_slide()
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
@@ -65,8 +79,6 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
  
 func _enter_tree():
 	set_multiplayer_authority(name.to_int())
-	
-
 
 func _on_jump_dust_animation_finished() -> void:
 	jump_dust.visible = false

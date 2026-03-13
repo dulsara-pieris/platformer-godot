@@ -12,7 +12,7 @@ config_version=5
 
 config/name="platformer-2"
 config/features=PackedStringArray("4.6", "GL Compatibility")
-boot_splash/bg_color=Color(0.827451, 0.6313726, 0.57254905, 1)
+boot_splash/bg_color=Color(0, 0, 0, 0.58431375)
 config/icon="res://icon.svg"
 
 [display]
@@ -36,4 +36,4 @@ Player=""
 textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method.mobile="forward_plus"
-environment/defaults/default_clear_color=Color(0.7497437, 0.5177679, 0.42440957, 1)
+environment/defaults/default_clear_color=Color(0.44992328, 0.30450943, 0.244697, 1)
