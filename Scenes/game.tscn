@@ -4,9 +4,12 @@
 [ext_resource type="Script" uid="uid://b66kinauo8u8s" path="res://Scripts/game.gd" id="1_i6g32"]
 [ext_resource type="PackedScene" uid="uid://bxkks7rx41qy8" path="res://Scenes/player.tscn" id="2_qxrlw"]
 [ext_resource type="Texture2D" uid="uid://guoffhv2dci7" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/waterfall_anim_strip_4.png" id="2_wrm1d"]
-[ext_resource type="PackedScene" uid="uid://b2caoa8nq8hkl" path="res://Scenes/paralax.tscn" id="4_3dryh"]
 [ext_resource type="Script" uid="uid://bsb7gt0hd5r62" path="res://Scripts/leaves.gd" id="6_1l0tm"]
 [ext_resource type="Texture2D" uid="uid://b5h6siqmog551" path="res://platformer_metroidvania asset pack v1.01/leaf.png" id="6_i6g32"]
+[ext_resource type="Texture2D" uid="uid://bll1v8fym7mq4" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/background.png" id="7_ldgsr"]
+[ext_resource type="Texture2D" uid="uid://0l16g5c1nwb0" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/bg_0.png" id="8_o5yvi"]
+[ext_resource type="Texture2D" uid="uid://c1snjgpe2jw1s" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/bg_1.png" id="9_rku1e"]
+[ext_resource type="Texture2D" uid="uid://cqp3nf67058n8" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/bg_2.png" id="10_rfjv2"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_1l0tm"]
 polygon = PackedVector2Array(8, 8, 8, -8, -8, -8, -8, 8)
@@ -364,8 +367,6 @@ scale_amount_min = 0.1
 scale_amount_max = 0.15
 script = ExtResource("6_1l0tm")
 
-[node name="ParallaxBackground" parent="." unique_id=256027559 instance=ExtResource("4_3dryh")]
-
 [node name="Area2D" type="Area2D" parent="." unique_id=1966461478]
 z_index = 1
 position = Vector2(25, 416)
@@ -383,5 +384,67 @@ curve = SubResource("Curve2D_3dryh")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=582588862]
 color = Color(0.78431374, 0.78431374, 0.78431374, 1)
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="." unique_id=168191343]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground" unique_id=242439274]
+motion_mirroring = Vector2(480, 0)
+
+[node name="Background" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer" unique_id=328826292]
+position = Vector2(131, 20)
+scale = Vector2(2, 2)
+texture = ExtResource("7_ldgsr")
+
+[node name="Background2" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer" unique_id=1111574694]
+position = Vector2(611, 20)
+scale = Vector2(2, 2)
+texture = ExtResource("7_ldgsr")
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground" unique_id=50179334]
+motion_scale = Vector2(1.1, 1)
+motion_mirroring = Vector2(480, 0)
+
+[node name="Background" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2" unique_id=103967034]
+modulate = Color(0.5882353, 0.5882353, 0.5882353, 1)
+position = Vector2(131, 20)
+scale = Vector2(2, 2)
+texture = ExtResource("8_o5yvi")
+
+[node name="Background2" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2" unique_id=608017428]
+modulate = Color(0.5882353, 0.5882353, 0.5882353, 1)
+position = Vector2(611, 20)
+scale = Vector2(2, 2)
+texture = ExtResource("8_o5yvi")
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground" unique_id=361377707]
+motion_scale = Vector2(1.2, 1)
+motion_mirroring = Vector2(480, 0)
+
+[node name="Background" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3" unique_id=1688204152]
+modulate = Color(0.5882353, 0.5882353, 0.5882353, 1)
+position = Vector2(131, 20)
+scale = Vector2(2, 2)
+texture = ExtResource("9_rku1e")
+
+[node name="Background2" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3" unique_id=494688336]
+modulate = Color(0.5882353, 0.5882353, 0.5882353, 1)
+position = Vector2(611, 20)
+scale = Vector2(2, 2)
+texture = ExtResource("9_rku1e")
+
+[node name="ParallaxLayer4" type="ParallaxLayer" parent="ParallaxBackground" unique_id=470377100]
+visible = false
+motion_scale = Vector2(1.5, 1.1)
+motion_mirroring = Vector2(480, 0)
+
+[node name="Background" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer4" unique_id=207863072]
+position = Vector2(130, 83)
+scale = Vector2(2, 2)
+texture = ExtResource("10_rfjv2")
+
+[node name="Background2" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer4" unique_id=890062272]
+position = Vector2(610, 83)
+scale = Vector2(2, 2)
+texture = ExtResource("10_rfjv2")
 
 [connection signal="body_entered" from="Area2D" to="Player" method="_on_area_2d_body_entered"]
