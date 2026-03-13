@@ -242,6 +242,17 @@ texture = ExtResource("2_wrm1d")
 [sub_resource type="TileSet" id="TileSet_wowpa"]
 sources/0 = SubResource("TileSetAtlasSource_3dryh")
 
+[sub_resource type="Gradient" id="Gradient_8erm5"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ldgsr"]
+gradient = SubResource("Gradient_8erm5")
+width = 250
+height = 250
+fill = 1
+fill_from = Vector2(0.508547, 0.4871795)
+fill_to = Vector2(0.8589744, 0.20085472)
+
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_3dryh"]
 distance = -8.0
 
@@ -366,6 +377,13 @@ angle_max = 10.0
 scale_amount_min = 0.1
 scale_amount_max = 0.15
 script = ExtResource("6_1l0tm")
+
+[node name="PointLight2D2" type="PointLight2D" parent="Player" unique_id=919205293]
+position = Vector2(0.5, 1)
+scale = Vector2(1.005, 1.01)
+energy = 1.65
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_ldgsr")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1966461478]
 z_index = 1
