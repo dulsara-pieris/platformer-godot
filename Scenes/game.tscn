@@ -7,9 +7,9 @@
 [ext_resource type="Script" uid="uid://bsb7gt0hd5r62" path="res://Scripts/leaves.gd" id="6_1l0tm"]
 [ext_resource type="Texture2D" uid="uid://b5h6siqmog551" path="res://platformer_metroidvania asset pack v1.01/leaf.png" id="6_i6g32"]
 [ext_resource type="Texture2D" uid="uid://bll1v8fym7mq4" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/background.png" id="7_ldgsr"]
+[ext_resource type="Texture2D" uid="uid://c7c84h1mu7ids" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/bg.png" id="7_o5yvi"]
 [ext_resource type="Texture2D" uid="uid://0l16g5c1nwb0" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/bg_0.png" id="8_o5yvi"]
 [ext_resource type="Texture2D" uid="uid://c1snjgpe2jw1s" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/bg_1.png" id="9_rku1e"]
-[ext_resource type="Texture2D" uid="uid://cqp3nf67058n8" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/bg_2.png" id="10_rfjv2"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_1l0tm"]
 polygon = PackedVector2Array(8, 8, 8, -8, -8, -8, -8, 8)
@@ -259,6 +259,27 @@ distance = -8.0
 [sub_resource type="Curve2D" id="Curve2D_3dryh"]
 bake_interval = 0.01
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_rku1e"]
+atlas = ExtResource("7_o5yvi")
+region = Rect2(190, 92, 190, 92)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rfjv2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rku1e")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ldgsr"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_o5yvi"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_rku1e"]
+
 [node name="Game" type="Node2D" unique_id=531747769]
 script = ExtResource("1_i6g32")
 
@@ -283,6 +304,9 @@ z_index = 1
 position = Vector2(0.5, 1)
 scale = Vector2(1.005, 1.01)
 energy = 1.65
+range_z_min = -4096
+range_z_max = 4096
+range_layer_min = -1
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_ldgsr")
 
@@ -413,12 +437,24 @@ curve = SubResource("Curve2D_3dryh")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=582588862]
 z_index = 1
-color = Color(0.78431374, 0.78431374, 0.78431374, 1)
+color = Color(0.72464263, 0.7246426, 0.7246426, 1)
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="." unique_id=168191343]
 layer = -1
-rotation = -18.849556
 transform = Transform2D(1, -4.7699523e-08, 4.7699523e-08, 1, 0, 0)
+
+[node name="ParallaxLayer4" type="ParallaxLayer" parent="ParallaxBackground" unique_id=1414396740]
+motion_mirroring = Vector2(500, 500)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="ParallaxBackground/ParallaxLayer4" unique_id=914896866]
+position = Vector2(112.030334, 4.3345337)
+scale = Vector2(9.694417, 14.188379)
+sprite_frames = SubResource("SpriteFrames_rfjv2")
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="ParallaxBackground/ParallaxLayer4" unique_id=179571419]
+position = Vector2(1755, -5.999918)
+scale = Vector2(9.694417, 14.188379)
+sprite_frames = SubResource("SpriteFrames_rfjv2")
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground" unique_id=242439274]
 motion_mirroring = Vector2(480, 0)
@@ -426,6 +462,7 @@ motion_mirroring = Vector2(480, 0)
 [node name="Background" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer" unique_id=328826292]
 light_mask = 2
 visibility_layer = 2
+material = SubResource("CanvasItemMaterial_ldgsr")
 position = Vector2(131, 20)
 scale = Vector2(2, 2)
 texture = ExtResource("7_ldgsr")
@@ -433,6 +470,7 @@ texture = ExtResource("7_ldgsr")
 [node name="Background2" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer" unique_id=1111574694]
 light_mask = 2
 visibility_layer = 2
+material = SubResource("CanvasItemMaterial_ldgsr")
 position = Vector2(611, 20)
 scale = Vector2(2, 2)
 texture = ExtResource("7_ldgsr")
@@ -445,6 +483,7 @@ motion_mirroring = Vector2(480, 0)
 modulate = Color(0.5882353, 0.5882353, 0.5882353, 1)
 light_mask = 1023
 visibility_layer = 1023
+material = SubResource("CanvasItemMaterial_o5yvi")
 position = Vector2(131, 20)
 scale = Vector2(2, 2)
 texture = ExtResource("8_o5yvi")
@@ -453,6 +492,7 @@ texture = ExtResource("8_o5yvi")
 modulate = Color(0.5882353, 0.5882353, 0.5882353, 1)
 light_mask = 1023
 visibility_layer = 1023
+material = SubResource("CanvasItemMaterial_o5yvi")
 position = Vector2(611, 20)
 scale = Vector2(2, 2)
 texture = ExtResource("8_o5yvi")
@@ -464,6 +504,7 @@ motion_mirroring = Vector2(480, 0)
 [node name="Background" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3" unique_id=1688204152]
 modulate = Color(0.5882353, 0.5882353, 0.5882353, 1)
 light_mask = 1023
+material = SubResource("CanvasItemMaterial_rku1e")
 position = Vector2(131, 20)
 scale = Vector2(2, 2)
 texture = ExtResource("9_rku1e")
@@ -471,23 +512,9 @@ texture = ExtResource("9_rku1e")
 [node name="Background2" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3" unique_id=494688336]
 modulate = Color(0.5882353, 0.5882353, 0.5882353, 1)
 light_mask = 1023
+material = SubResource("CanvasItemMaterial_rku1e")
 position = Vector2(611, 20)
 scale = Vector2(2, 2)
 texture = ExtResource("9_rku1e")
-
-[node name="ParallaxLayer4" type="ParallaxLayer" parent="ParallaxBackground" unique_id=470377100]
-visible = false
-motion_scale = Vector2(1.5, 1.1)
-motion_mirroring = Vector2(480, 0)
-
-[node name="Background" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer4" unique_id=207863072]
-position = Vector2(130, 83)
-scale = Vector2(2, 2)
-texture = ExtResource("10_rfjv2")
-
-[node name="Background2" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer4" unique_id=890062272]
-position = Vector2(610, 83)
-scale = Vector2(2, 2)
-texture = ExtResource("10_rfjv2")
 
 [connection signal="body_entered" from="Area2D" to="Player" method="_on_area_2d_body_entered"]
