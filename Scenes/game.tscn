@@ -7,30 +7,67 @@
 [ext_resource type="Script" uid="uid://bsb7gt0hd5r62" path="res://Scripts/leaves.gd" id="6_1l0tm"]
 [ext_resource type="Texture2D" uid="uid://b5h6siqmog551" path="res://platformer_metroidvania asset pack v1.01/leaf.png" id="6_i6g32"]
 [ext_resource type="Texture2D" uid="uid://bll1v8fym7mq4" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/background.png" id="7_ldgsr"]
-[ext_resource type="Texture2D" uid="uid://c7c84h1mu7ids" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/bg.png" id="7_o5yvi"]
+[ext_resource type="Texture2D" uid="uid://bpmiw3lvkxvtv" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/bg.png" id="7_o5yvi"]
 [ext_resource type="Texture2D" uid="uid://0l16g5c1nwb0" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/bg_0.png" id="8_o5yvi"]
 [ext_resource type="Texture2D" uid="uid://c1snjgpe2jw1s" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/bg_1.png" id="9_rku1e"]
+[ext_resource type="AudioStream" uid="uid://difbp7n1l563p" path="res://sounds/Ambient Wind Sound #ASMRnature.mp3" id="11_o5yvi"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_1phco"]
+polygon = PackedVector2Array(8, 8, -8, 8, -6.4749146, -6.4749155, 8, -5.935339)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_rku1e"]
+polygon = PackedVector2Array(8, 8, -6.4749146, 8, -6.6547737, -8, 8, -8)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_nb51f"]
+polygon = PackedVector2Array(8, 6.4749126, -6.4749146, 6.4749126, -6.2950563, -8, 8, -8)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_1l0tm"]
 polygon = PackedVector2Array(8, 8, 8, -8, -8, -8, -8, 8)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ldgsr"]
+polygon = PackedVector2Array(-8, -5.5756197, 8, -5.755479, 8, 8, -8, 8)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_o5yvi"]
+polygon = PackedVector2Array(-9.172795, -10.072088, 8, -8, 8, -8, 8, 6.115198, -8.157064, 5.5797367)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_nnt18"]
+polygon = PackedVector2Array(6.2950554, 8, -8, 8, -8, -6.2950563, 6.4749126, -6.2950563)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_rfjv2"]
+polygon = PackedVector2Array(6.2950554, 8, -8, 8, -8, -8, 6.2950554, -8)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ewbju"]
+polygon = PackedVector2Array(6.2950554, 6.4749126, -8, 6.2950554, -8, -8, 6.2950554, -8)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_85qyi"]
+polygon = PackedVector2Array(6.115196, 8, -8, 8, -8, -8, 5.755478, -8)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_iivbl"]
+polygon = PackedVector2Array(8, 5.755478, -8, 6.115196, -8, -8, 8, -8)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_7nbq1"]
+polygon = PackedVector2Array(8, 8, -8, 8, -8, -5.3957634, 8, -5.75548)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_exi56"]
+polygon = PackedVector2Array(8, 8, -6.4749146, 8, -6.115197, -8, 8, -8)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qxrlw"]
 texture = ExtResource("1_ebmjs")
 0:0/0 = 0
 0:0/0/terrain_set = 0
-0:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_1l0tm")
+0:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_1phco")
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 0:0/0/terrains_peering_bit/bottom_right_corner = 0
 1:0/0 = 0
 1:0/0/terrain_set = 0
-1:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_1l0tm")
+1:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_ldgsr")
 1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 1:0/0/terrains_peering_bit/bottom_right_corner = 0
 1:0/0/terrains_peering_bit/bottom_side = 0
 1:0/0/terrains_peering_bit/bottom_left_corner = 0
 2:0/0 = 0
 2:0/0/terrain_set = 0
-2:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_1l0tm")
+2:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_nnt18")
 2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 2:0/0/terrains_peering_bit/bottom_left_corner = 0
 3:0/0 = 0
@@ -44,7 +81,7 @@ texture = ExtResource("1_ebmjs")
 3:0/0/terrains_peering_bit/top_right_corner = 0
 4:0/0 = 0
 4:0/0/terrain_set = 0
-4:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_1l0tm")
+4:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_iivbl")
 4:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 4:0/0/terrains_peering_bit/top_left_corner = 0
 4:0/0/terrains_peering_bit/top_side = 0
@@ -72,7 +109,7 @@ texture = ExtResource("1_ebmjs")
 11:0/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_1l0tm")
 0:1/0 = 0
 0:1/0/terrain_set = 0
-0:1/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_1l0tm")
+0:1/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_rku1e")
 0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 0:1/0/terrains_peering_bit/right_side = 0
 0:1/0/terrains_peering_bit/bottom_right_corner = 0
@@ -92,21 +129,21 @@ texture = ExtResource("1_ebmjs")
 1:1/0/terrains_peering_bit/top_right_corner = 0
 2:1/0 = 0
 2:1/0/terrain_set = 0
-2:1/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_1l0tm")
+2:1/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_rfjv2")
 2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 2:1/0/terrains_peering_bit/bottom_left_corner = 0
 2:1/0/terrains_peering_bit/left_side = 0
 2:1/0/terrains_peering_bit/top_left_corner = 0
 3:1/0 = 0
 3:1/0/terrain_set = 0
-3:1/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_1l0tm")
+3:1/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_85qyi")
 3:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 3:1/0/terrains_peering_bit/bottom_left_corner = 0
 3:1/0/terrains_peering_bit/left_side = 0
 3:1/0/terrains_peering_bit/top_left_corner = 0
 5:1/0 = 0
 5:1/0/terrain_set = 0
-5:1/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_1l0tm")
+5:1/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_exi56")
 5:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 5:1/0/terrains_peering_bit/right_side = 0
 5:1/0/terrains_peering_bit/bottom_right_corner = 0
@@ -123,19 +160,19 @@ texture = ExtResource("1_ebmjs")
 11:1/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_1l0tm")
 0:2/0 = 0
 0:2/0/terrain_set = 0
-0:2/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_1l0tm")
+0:2/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_nb51f")
 0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 0:2/0/terrains_peering_bit/top_right_corner = 0
 1:2/0 = 0
 1:2/0/terrain_set = 0
-1:2/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_1l0tm")
+1:2/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_o5yvi")
 1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 1:2/0/terrains_peering_bit/top_left_corner = 0
 1:2/0/terrains_peering_bit/top_side = 0
 1:2/0/terrains_peering_bit/top_right_corner = 0
 2:2/0 = 0
 2:2/0/terrain_set = 0
-2:2/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_1l0tm")
+2:2/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_ewbju")
 2:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 2:2/0/terrains_peering_bit/top_left_corner = 0
 3:2/0 = 0
@@ -149,7 +186,7 @@ texture = ExtResource("1_ebmjs")
 3:2/0/terrains_peering_bit/top_left_corner = 0
 4:2/0 = 0
 4:2/0/terrain_set = 0
-4:2/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_1l0tm")
+4:2/0/occlusion_layer_0/polygon_0/polygon = SubResource("OccluderPolygon2D_7nbq1")
 4:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 4:2/0/terrains_peering_bit/bottom_right_corner = 0
 4:2/0/terrains_peering_bit/bottom_side = 0
@@ -259,15 +296,15 @@ distance = -8.0
 [sub_resource type="Curve2D" id="Curve2D_3dryh"]
 bake_interval = 0.01
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rku1e"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ldgsr"]
 atlas = ExtResource("7_o5yvi")
-region = Rect2(190, 92, 190, 92)
+region = Rect2(204, 232, 204, 232)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_rfjv2"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_rku1e")
+"texture": SubResource("AtlasTexture_ldgsr")
 }],
 "loop": true,
 "name": &"default",
@@ -280,7 +317,16 @@ animations = [{
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_rku1e"]
 
+[sub_resource type="Environment" id="Environment_o5yvi"]
+ambient_light_color = Color(1, 1, 1, 1)
+glow_enabled = true
+glow_intensity = 0.24
+glow_hdr_threshold = 0.35
+glow_hdr_scale = 2.04
+glow_hdr_luminance_cap = 2.1
+
 [node name="Game" type="Node2D" unique_id=531747769]
+position = Vector2(1, 0)
 script = ExtResource("1_i6g32")
 
 [node name="tiles" type="Node" parent="." unique_id=63637483]
@@ -303,7 +349,7 @@ visibility_layer = 1023
 z_index = 1
 position = Vector2(0.5, 1)
 scale = Vector2(1.005, 1.01)
-energy = 1.65
+energy = 1.09
 range_z_min = -4096
 range_z_max = 4096
 range_layer_min = -1
@@ -313,7 +359,9 @@ texture = SubResource("GradientTexture2D_ldgsr")
 [node name="Camera" type="Camera2D" parent="Player" unique_id=1798388208]
 zoom = Vector2(2.5, 2.5)
 position_smoothing_enabled = true
-position_smoothing_speed = 10.0
+position_smoothing_speed = 40.0
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
 
 [node name="VFX" type="Node" parent="Player" unique_id=408137067]
 
@@ -419,6 +467,15 @@ scale_amount_min = 0.1
 scale_amount_max = 0.15
 script = ExtResource("6_1l0tm")
 
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Player" unique_id=144941407]
+position = Vector2(-81.33334, -76.66667)
+scale = Vector2(0.6666667, 0.6666667)
+stream = ExtResource("11_o5yvi")
+volume_db = -9.978
+pitch_scale = 1.7
+autoplay = true
+attenuation = 0.0583147
+
 [node name="Area2D" type="Area2D" parent="." unique_id=1966461478]
 z_index = 1
 position = Vector2(25, 416)
@@ -437,7 +494,7 @@ curve = SubResource("Curve2D_3dryh")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=582588862]
 z_index = 1
-color = Color(0.72464263, 0.7246426, 0.7246426, 1)
+color = Color(0.8047426, 0.80474263, 0.8047425, 1)
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="." unique_id=168191343]
 layer = -1
@@ -447,11 +504,13 @@ transform = Transform2D(1, -4.7699523e-08, 4.7699523e-08, 1, 0, 0)
 motion_mirroring = Vector2(500, 500)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="ParallaxBackground/ParallaxLayer4" unique_id=914896866]
+modulate = Color(0.6789437, 0.6789437, 0.6789437, 1)
 position = Vector2(112.030334, 4.3345337)
 scale = Vector2(9.694417, 14.188379)
 sprite_frames = SubResource("SpriteFrames_rfjv2")
 
 [node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="ParallaxBackground/ParallaxLayer4" unique_id=179571419]
+modulate = Color(0.6789437, 0.6789437, 0.6789437, 1)
 position = Vector2(1755, -5.999918)
 scale = Vector2(9.694417, 14.188379)
 sprite_frames = SubResource("SpriteFrames_rfjv2")
@@ -460,6 +519,7 @@ sprite_frames = SubResource("SpriteFrames_rfjv2")
 motion_mirroring = Vector2(480, 0)
 
 [node name="Background" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer" unique_id=328826292]
+modulate = Color(0.5882353, 0.5882353, 0.5882353, 1)
 light_mask = 2
 visibility_layer = 2
 material = SubResource("CanvasItemMaterial_ldgsr")
@@ -468,6 +528,7 @@ scale = Vector2(2, 2)
 texture = ExtResource("7_ldgsr")
 
 [node name="Background2" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer" unique_id=1111574694]
+modulate = Color(0.5882353, 0.5882353, 0.5882353, 1)
 light_mask = 2
 visibility_layer = 2
 material = SubResource("CanvasItemMaterial_ldgsr")
@@ -516,5 +577,18 @@ material = SubResource("CanvasItemMaterial_rku1e")
 position = Vector2(611, 20)
 scale = Vector2(2, 2)
 texture = ExtResource("9_rku1e")
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="." unique_id=900554831]
+position = Vector2(-1, 0)
+rotation = -0.34557518
+color = Color(0.25516254, 0.25476164, 0.2631243, 1)
+energy = 0.6
+range_layer_min = -1
+shadow_enabled = true
+shadow_color = Color(1, 1, 0.21568628, 0)
+max_distance = 8326.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1297569598]
+environment = SubResource("Environment_o5yvi")
 
 [connection signal="body_entered" from="Area2D" to="Player" method="_on_area_2d_body_entered"]

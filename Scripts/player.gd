@@ -3,6 +3,8 @@ extends CharacterBody2D
 @onready var character: AnimatedSprite2D = $AnimatedSprite2D
 @onready var jump_dust: AnimatedSprite2D = $JumpDust
 @onready var camera: Camera2D = $Camera
+@onready var sound: AudioStreamPlayer2D = $AudioStreamPlayer2D
+
 
 var shake_strength = 0.0
 
@@ -23,7 +25,9 @@ func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 func _physics_process(delta: float) -> void:
 	#moving stuff
-	var direction := Input.get_axis("ui_left", "ui_right")
+	var direction := Input.get_axis("left", "right")
+	if direction and is_on_wall():
+		character.play("idle")
 	if direction:
 		run += delta
 		character.play("run")
@@ -37,7 +41,7 @@ func _physics_process(delta: float) -> void:
 		character.play("idle")
 		run = 1
 
-	if Input.is_action_just_pressed("ui_accept"):
+	if Input.is_action_just_pressed("jump"):
 		jump_buffer_timer = jump_buffer_time
 	else:
 		jump_buffer_timer -=delta
@@ -45,7 +49,7 @@ func _physics_process(delta: float) -> void:
 	if jump_buffer_timer > 0 and coyote_timer > 0:
 		velocity.y = JUMP_VELOCITY
 		coyote_timer = 0
-		shake_strength = 6
+		shake_strength = 8
 		character.play("jump")
 		jump_dust.visible = true
 		jump_dust.play("default")
@@ -69,7 +73,7 @@ func _physics_process(delta: float) -> void:
 	#max acceleration
 	if run > 1.8:
 		run = 1.8
-		shake_strength = 0.5
+		shake_strength = 0.1
 		
 	move_and_slide()
 

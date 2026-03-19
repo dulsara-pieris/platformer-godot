@@ -146,7 +146,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"run",
-"speed": 5.0
+"speed": 7.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cvnsp"]
@@ -238,9 +238,9 @@ animations = [{
 script = ExtResource("1_cvnsp")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=955836603]
-modulate = Color(0.39215687, 0.39215687, 0.39215687, 1)
+modulate = Color(0.57700837, 0.5770084, 0.57700825, 1)
 sprite_frames = SubResource("SpriteFrames_x3wgy")
-animation = &"fall"
+animation = &"run"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1930001022]
 position = Vector2(0, 1)

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://difbp7n1l563p"
+path="res://.godot/imported/Ambient Wind Sound #ASMRnature.mp3-6843031d1b4933ce164efb862f6f3561.mp3str"
+
+[deps]
+
+source_file="res://sounds/Ambient Wind Sound #ASMRnature.mp3"
+dest_files=["res://.godot/imported/Ambient Wind Sound #ASMRnature.mp3-6843031d1b4933ce164efb862f6f3561.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
