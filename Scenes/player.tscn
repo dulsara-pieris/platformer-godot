@@ -1,76 +1,82 @@
 [gd_scene format=3 uid="uid://bxkks7rx41qy8"]
 
 [ext_resource type="Script" uid="uid://b0iqhikvc10hb" path="res://Scripts/player.gd" id="1_cvnsp"]
-[ext_resource type="Texture2D" uid="uid://blc8wbdeigp7x" path="res://platformer_metroidvania asset pack v1.01/herochar sprites(new)/herochar_idle_anim_strip_4.png" id="1_v0iea"]
-[ext_resource type="Texture2D" uid="uid://bq3jc3fx2umtj" path="res://platformer_metroidvania asset pack v1.01/herochar sprites(new)/herochar_jump_down_anim_strip_3.png" id="2_fkybt"]
-[ext_resource type="Texture2D" uid="uid://bovpstrgkakgm" path="res://platformer_metroidvania asset pack v1.01/herochar sprites(new)/herochar_run_anim_strip_6.png" id="3_6t5aa"]
-[ext_resource type="Texture2D" uid="uid://c4yo4vgox4lrh" path="res://platformer_metroidvania asset pack v1.01/herochar sprites(new)/herochar_jump_up_anim_strip_3.png" id="3_vgqql"]
 [ext_resource type="Script" uid="uid://bxnna3cr2gukw" path="res://addons/trail_2d/trail_2d.gd" id="6_x3wgy"]
-[ext_resource type="Texture2D" uid="uid://c1h4hgt4t47ca" path="res://platformer_metroidvania asset pack v1.01/herochar sprites(new)/herochar_before_jump_dust_anim_strip_4.png" id="7_3smsa"]
-[ext_resource type="Texture2D" uid="uid://76pov0psb3di" path="res://platformer_metroidvania asset pack v1.01/herochar sprites(new)/herochar_after_jump_dust_anim_strip_4.png" id="8_8erm5"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_cvnsp"]
+load_path = "res://.godot/imported/herochar_jump_down_anim_strip_3.png-3b2f7a97dfc36967198c6edb04f83c8c.ctex"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h4iuc"]
-atlas = ExtResource("2_fkybt")
+atlas = SubResource("CompressedTexture2D_cvnsp")
 region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fd4e3"]
-atlas = ExtResource("2_fkybt")
+atlas = SubResource("CompressedTexture2D_cvnsp")
 region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qqcod"]
-atlas = ExtResource("2_fkybt")
+atlas = SubResource("CompressedTexture2D_cvnsp")
 region = Rect2(32, 0, 16, 16)
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6t5aa"]
+load_path = "res://.godot/imported/herochar_idle_anim_strip_4.png-be25700fbd4cc5d2aa76d69c78b89cbd.ctex"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_cvnsp"]
-atlas = ExtResource("1_v0iea")
+atlas = SubResource("CompressedTexture2D_6t5aa")
 region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6t5aa"]
-atlas = ExtResource("1_v0iea")
+atlas = SubResource("CompressedTexture2D_6t5aa")
 region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vgqql"]
-atlas = ExtResource("1_v0iea")
+atlas = SubResource("CompressedTexture2D_6t5aa")
 region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fkybt"]
-atlas = ExtResource("1_v0iea")
+atlas = SubResource("CompressedTexture2D_6t5aa")
 region = Rect2(48, 0, 16, 16)
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_vgqql"]
+load_path = "res://.godot/imported/herochar_jump_up_anim_strip_3.png-907fd456f353d1c74354d100cac147ae.ctex"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_pu2lt"]
-atlas = ExtResource("3_vgqql")
+atlas = SubResource("CompressedTexture2D_vgqql")
 region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ukyrk"]
-atlas = ExtResource("3_vgqql")
+atlas = SubResource("CompressedTexture2D_vgqql")
 region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7dp3o"]
-atlas = ExtResource("3_vgqql")
+atlas = SubResource("CompressedTexture2D_vgqql")
 region = Rect2(32, 0, 16, 16)
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_fkybt"]
+load_path = "res://.godot/imported/herochar_run_anim_strip_6.png-ce4f72d836d5479a3fdde89ce9e126f7.ctex"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_x3wgy"]
-atlas = ExtResource("3_6t5aa")
+atlas = SubResource("CompressedTexture2D_fkybt")
 region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3smsa"]
-atlas = ExtResource("3_6t5aa")
+atlas = SubResource("CompressedTexture2D_fkybt")
 region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8erm5"]
-atlas = ExtResource("3_6t5aa")
+atlas = SubResource("CompressedTexture2D_fkybt")
 region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_f1ek2"]
-atlas = ExtResource("3_6t5aa")
+atlas = SubResource("CompressedTexture2D_fkybt")
 region = Rect2(48, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tx1dd"]
-atlas = ExtResource("3_6t5aa")
+atlas = SubResource("CompressedTexture2D_fkybt")
 region = Rect2(64, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gymyn"]
-atlas = ExtResource("3_6t5aa")
+atlas = SubResource("CompressedTexture2D_fkybt")
 region = Rect2(80, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_x3wgy"]
@@ -165,36 +171,42 @@ point_count = 3
 [sub_resource type="Gradient" id="Gradient_x3wgy"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_x3wgy"]
+load_path = "res://.godot/imported/herochar_before_jump_dust_anim_strip_4.png-1ca0d0c48e522362988d874dfa00ae46.ctex"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_igrcy"]
-atlas = ExtResource("7_3smsa")
+atlas = SubResource("CompressedTexture2D_x3wgy")
 region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fs7ks"]
-atlas = ExtResource("7_3smsa")
+atlas = SubResource("CompressedTexture2D_x3wgy")
 region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l6n3p"]
-atlas = ExtResource("7_3smsa")
+atlas = SubResource("CompressedTexture2D_x3wgy")
 region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_olqyp"]
-atlas = ExtResource("7_3smsa")
+atlas = SubResource("CompressedTexture2D_x3wgy")
 region = Rect2(48, 0, 16, 16)
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_3smsa"]
+load_path = "res://.godot/imported/herochar_after_jump_dust_anim_strip_4.png-7868a357461e518474e53fe07dcfe4ea.ctex"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_wpjfl"]
-atlas = ExtResource("8_8erm5")
+atlas = SubResource("CompressedTexture2D_3smsa")
 region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bi64h"]
-atlas = ExtResource("8_8erm5")
+atlas = SubResource("CompressedTexture2D_3smsa")
 region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2ijsl"]
-atlas = ExtResource("8_8erm5")
+atlas = SubResource("CompressedTexture2D_3smsa")
 region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p1odr"]
-atlas = ExtResource("8_8erm5")
+atlas = SubResource("CompressedTexture2D_3smsa")
 region = Rect2(48, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_wpjfl"]
@@ -238,7 +250,7 @@ animations = [{
 script = ExtResource("1_cvnsp")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=955836603]
-modulate = Color(0.57700837, 0.5770084, 0.57700825, 1)
+modulate = Color(0.76240367, 0.7624037, 0.7624035, 1)
 sprite_frames = SubResource("SpriteFrames_x3wgy")
 animation = &"run"
 

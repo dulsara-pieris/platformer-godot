@@ -49,7 +49,7 @@ func _physics_process(delta: float) -> void:
 	if jump_buffer_timer > 0 and coyote_timer > 0:
 		velocity.y = JUMP_VELOCITY
 		coyote_timer = 0
-		shake_strength = 8
+		shake_strength = 10
 		character.play("jump")
 		jump_dust.visible = true
 		jump_dust.play("default")
@@ -59,7 +59,7 @@ func _physics_process(delta: float) -> void:
 			randf_range(-shake_strength, shake_strength),
 			randf_range(-shake_strength, shake_strength)
 		)
-		shake_strength *= 0.9
+		shake_strength *= .9
 	else:
 		camera.offset = Vector2.ZERO
 
