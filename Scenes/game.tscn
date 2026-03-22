@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b66kinauo8u8s" path="res://Scripts/game.gd" id="1_i6g32"]
 [ext_resource type="PackedScene" uid="uid://bxkks7rx41qy8" path="res://Scenes/player.tscn" id="2_qxrlw"]
+[ext_resource type="Script" uid="uid://c06b3816pqge4" path="res://Scripts/hearts.gd" id="5_h4fw4"]
 [ext_resource type="PackedScene" uid="uid://dar7mumvhvrpl" path="res://Scenes/enemy.tscn" id="5_i6g32"]
 [ext_resource type="Texture2D" uid="uid://blffaqivgjm6y" path="res://platformer_metroidvania asset pack v1.01/heart.png" id="5_wowpa"]
 [ext_resource type="Script" uid="uid://bsb7gt0hd5r62" path="res://Scripts/leaves.gd" id="6_1l0tm"]
@@ -783,6 +784,7 @@ grow_vertical = 0
 size_flags_vertical = 8
 theme = SubResource("Theme_wowpa")
 theme_override_styles/panel = SubResource("StyleBoxTexture_i6g32")
+script = ExtResource("5_h4fw4")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/Panel" unique_id=1252927538]
 layout_mode = 0
@@ -791,17 +793,17 @@ offset_bottom = 88.0
 alignment = 2
 
 [node name="Heart" type="Sprite2D" parent="UI/Panel/HBoxContainer" unique_id=1292653525]
-position = Vector2(51.874996, 43.499992)
+position = Vector2(52.000004, 44.999992)
 scale = Vector2(0.02, 0.018)
 texture = ExtResource("5_wowpa")
 
 [node name="Heart2" type="Sprite2D" parent="UI/Panel/HBoxContainer" unique_id=1353314985]
-position = Vector2(196.87502, 43.624977)
+position = Vector2(118.000015, 44.999977)
 scale = Vector2(0.02, 0.018)
 texture = ExtResource("5_wowpa")
 
 [node name="Heart3" type="Sprite2D" parent="UI/Panel/HBoxContainer" unique_id=596367474]
-position = Vector2(125.87501, 43.624977)
+position = Vector2(182, 44.999977)
 scale = Vector2(0.02, 0.018)
 texture = ExtResource("5_wowpa")
 
@@ -894,7 +896,52 @@ text = "QUIT"
 [node name="enemie" type="Node" parent="." unique_id=451805166]
 
 [node name="enemy" parent="enemie" unique_id=1102488683 instance=ExtResource("5_i6g32")]
-position = Vector2(275, 101)
+position = Vector2(299, 106)
+
+[node name="enemy2" parent="enemie" unique_id=130160513 instance=ExtResource("5_i6g32")]
+position = Vector2(423, 67)
+
+[node name="enemy3" parent="enemie" unique_id=688442453 instance=ExtResource("5_i6g32")]
+position = Vector2(755, 23)
+
+[node name="enemy4" parent="enemie" unique_id=1609876806 instance=ExtResource("5_i6g32")]
+position = Vector2(805, 40)
+
+[node name="enemy5" parent="enemie" unique_id=115766811 instance=ExtResource("5_i6g32")]
+position = Vector2(1115, 56)
+
+[node name="enemy6" parent="enemie" unique_id=1583526751 instance=ExtResource("5_i6g32")]
+position = Vector2(1208, 54)
+
+[node name="enemy7" parent="enemie" unique_id=2080922062 instance=ExtResource("5_i6g32")]
+position = Vector2(1323, 21)
+
+[node name="enemy8" parent="enemie" unique_id=1955529194 instance=ExtResource("5_i6g32")]
+position = Vector2(1424, 22)
+
+[node name="enemy9" parent="enemie" unique_id=1364791440 instance=ExtResource("5_i6g32")]
+position = Vector2(1477, 18)
+
+[node name="enemy10" parent="enemie" unique_id=1131079672 instance=ExtResource("5_i6g32")]
+position = Vector2(1339, 10)
+
+[node name="enemy11" parent="enemie" unique_id=41201354 instance=ExtResource("5_i6g32")]
+position = Vector2(1058, 52)
+
+[node name="enemy12" parent="enemie" unique_id=1119558576 instance=ExtResource("5_i6g32")]
+position = Vector2(1969, -32)
+
+[node name="enemy13" parent="enemie" unique_id=1469103134 instance=ExtResource("5_i6g32")]
+position = Vector2(2102, -33)
+
+[node name="enemy14" parent="enemie" unique_id=592735734 instance=ExtResource("5_i6g32")]
+position = Vector2(2165, -36)
+
+[node name="enemy15" parent="enemie" unique_id=1145234931 instance=ExtResource("5_i6g32")]
+position = Vector2(2037, -39)
+
+[node name="enemy16" parent="enemie" unique_id=1456830841 instance=ExtResource("5_i6g32")]
+position = Vector2(2379, -40)
 
 [connection signal="body_entered" from="Area2D" to="Player" method="_on_area_2d_body_entered"]
 [connection signal="pressed" from="UI/pause/PausePanel/VBoxContainer/resume" to="UI/pause" method="_on_resume_pressed"]

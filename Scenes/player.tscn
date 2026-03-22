@@ -246,6 +246,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_cvnsp"]
+radius = 8.0
+
 [node name="Player" type="CharacterBody2D" unique_id=1975332787 groups=["Player"]]
 script = ExtResource("1_cvnsp")
 
@@ -280,4 +283,11 @@ position = Vector2(0, 2)
 sprite_frames = SubResource("SpriteFrames_wpjfl")
 animation = &"fall"
 
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1471472795]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=781454797]
+position = Vector2(-1, 1)
+shape = SubResource("CircleShape2D_cvnsp")
+
 [connection signal="animation_finished" from="JumpDust" to="." method="_on_jump_dust_animation_finished"]
+[connection signal="body_entered" from="Hurtbox" to="." method="_on_hurtbox_body_entered"]

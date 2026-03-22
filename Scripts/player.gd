@@ -7,7 +7,6 @@ extends CharacterBody2D
 
 
 var shake_strength = 0.0
-
 const SPEED = 230.0
 const JUMP_VELOCITY = -400.0
 const gravity = 1.3
@@ -23,6 +22,7 @@ var run = 1 #for accelaration
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	GameManager.health = 300
 
 
 func _physics_process(delta: float) -> void:
@@ -81,10 +81,15 @@ func _physics_process(delta: float) -> void:
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
-		get_tree().change_scene_to_file("res://Scenes/game.tscn")
+		get_tree().reload_current_scene()
  
 func _enter_tree():
 	set_multiplayer_authority(name.to_int())
 
 func _on_jump_dust_animation_finished() -> void:
 	jump_dust.visible = false
+
+func _on_hurtbox_body_entered(body: Node2D) -> void:
+		if body.is_in_group("enemy"):
+				GameManager.take_damage(1)
+				shake_strength = 15
