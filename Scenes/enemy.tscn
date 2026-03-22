@@ -45,7 +45,7 @@ radius = 6.0
 height = 22.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hghv2"]
-radius = 12.0415945
+radius = 132.0
 
 [node name="enemy" type="CharacterBody2D" unique_id=130160513]
 script = ExtResource("1_afpow")
@@ -62,11 +62,11 @@ autoplay = "idle"
 position = Vector2(2, -4)
 shape = SubResource("CapsuleShape2D_1dp5w")
 
-[node name="Area2D" type="Area2D" parent="." unique_id=992706312]
+[node name="DetectArea" type="Area2D" parent="." unique_id=992706312]
 script = ExtResource("2_1f0kj")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1848819663]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectArea" unique_id=1848819663]
 position = Vector2(3, -4)
 shape = SubResource("CircleShape2D_hghv2")
 
-[connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]
+[connection signal="body_entered" from="DetectArea" to="DetectArea" method="_on_body_entered"]

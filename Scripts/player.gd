@@ -23,6 +23,8 @@ var run = 1 #for accelaration
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+
+
 func _physics_process(delta: float) -> void:
 	#moving stuff
 	var direction := Input.get_axis("left", "right")

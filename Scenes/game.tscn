@@ -894,7 +894,7 @@ text = "QUIT"
 [node name="enemie" type="Node" parent="." unique_id=451805166]
 
 [node name="enemy" parent="enemie" unique_id=1102488683 instance=ExtResource("5_i6g32")]
-position = Vector2(766, 17)
+position = Vector2(275, 101)
 
 [connection signal="body_entered" from="Area2D" to="Player" method="_on_area_2d_body_entered"]
 [connection signal="pressed" from="UI/pause/PausePanel/VBoxContainer/resume" to="UI/pause" method="_on_resume_pressed"]
