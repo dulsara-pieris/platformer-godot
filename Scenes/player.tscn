@@ -249,6 +249,9 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_cvnsp"]
 radius = 8.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_6t5aa"]
+radius = 10.049875
+
 [node name="Player" type="CharacterBody2D" unique_id=1975332787 groups=["Player"]]
 script = ExtResource("1_cvnsp")
 
@@ -289,5 +292,12 @@ animation = &"fall"
 position = Vector2(-1, 1)
 shape = SubResource("CircleShape2D_cvnsp")
 
+[node name="AttackArea" type="Area2D" parent="." unique_id=539934073]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=1532861806]
+position = Vector2(-1, 1)
+shape = SubResource("CircleShape2D_6t5aa")
+
 [connection signal="animation_finished" from="JumpDust" to="." method="_on_jump_dust_animation_finished"]
 [connection signal="body_entered" from="Hurtbox" to="." method="_on_hurtbox_body_entered"]
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]

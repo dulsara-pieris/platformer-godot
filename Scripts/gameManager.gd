@@ -1,14 +1,12 @@
 extends Node
 
 var health = 300
+var have_weapon = false
+var inventory
+var ability = 10
+func _ready():
+	inventory = InventoryManager.new()
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
 
 func take_damage(amount: int) -> void:
 	health -= amount
@@ -16,7 +14,6 @@ func take_damage(amount: int) -> void:
 
 	if health <= 0:
 		die()
-	
 
 func die() -> void:
 	print("Player died")

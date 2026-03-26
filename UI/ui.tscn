@@ -1,69 +1,278 @@
 [gd_scene format=3 uid="uid://e517rkrv5vst"]
 
-[ext_resource type="FontFile" uid="uid://om5e83td5r53" path="res://fonts/karmatic/ka1.ttf" id="1_2fwl4"]
-[ext_resource type="FontFile" uid="uid://bmn7efysl0jc8" path="res://fonts/byte/ByteBounce.ttf" id="2_dajm1"]
-[ext_resource type="Texture2D" uid="uid://bll1v8fym7mq4" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/background.png" id="3_nm1m0"]
-[ext_resource type="Texture2D" uid="uid://0l16g5c1nwb0" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/bg_0.png" id="4_c7tqi"]
-[ext_resource type="Texture2D" uid="uid://c1snjgpe2jw1s" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/bg_1.png" id="5_cbfhl"]
-[ext_resource type="Texture2D" uid="uid://cqp3nf67058n8" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/bg_2.png" id="6_4fiuh"]
+[ext_resource type="Script" uid="uid://birdl8v2g2rbc" path="res://Scripts/ui.gd" id="1_3sbvi"]
+[ext_resource type="Texture2D" uid="uid://bmh3sgca75vul" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/background.png" id="3_nm1m0"]
+[ext_resource type="Texture2D" uid="uid://cgi406aghfsyq" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/bg_0.png" id="4_c7tqi"]
+[ext_resource type="Texture2D" uid="uid://cdps1hqdkswj2" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/bg_1.png" id="5_cbfhl"]
+[ext_resource type="Texture2D" uid="uid://c251vqtejte2l" path="res://platformer_metroidvania asset pack v1.01/tiles and background_foreground (new)/bg_2.png" id="6_4fiuh"]
+[ext_resource type="FontFile" uid="uid://bmn7efysl0jc8" path="res://fonts/byte/ByteBounce.ttf" id="6_nm1m0"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nm1m0"]
+
+[sub_resource type="FontFile" id="FontFile_c7tqi"]
+cache/0/variation_coordinates = {}
+cache/0/face_index = 0
+cache/0/embolden = 0.0
+cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
+cache/0/spacing_top = 0
+cache/0/spacing_bottom = 0
+cache/0/spacing_space = 0
+cache/0/spacing_glyph = 0
+cache/0/baseline_offset = 0.0
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/2/0/ascent = 0.0
+cache/0/2/0/descent = 0.0
+cache/0/2/0/underline_position = 0.0
+cache/0/2/0/underline_thickness = 0.0
+cache/0/2/0/scale = 1.0
+cache/0/3/0/ascent = 0.0
+cache/0/3/0/descent = 0.0
+cache/0/3/0/underline_position = 0.0
+cache/0/3/0/underline_thickness = 0.0
+cache/0/3/0/scale = 1.0
+cache/0/4/0/ascent = 0.0
+cache/0/4/0/descent = 0.0
+cache/0/4/0/underline_position = 0.0
+cache/0/4/0/underline_thickness = 0.0
+cache/0/4/0/scale = 1.0
+cache/0/5/0/ascent = 0.0
+cache/0/5/0/descent = 0.0
+cache/0/5/0/underline_position = 0.0
+cache/0/5/0/underline_thickness = 0.0
+cache/0/5/0/scale = 1.0
+cache/0/6/0/ascent = 0.0
+cache/0/6/0/descent = 0.0
+cache/0/6/0/underline_position = 0.0
+cache/0/6/0/underline_thickness = 0.0
+cache/0/6/0/scale = 1.0
+cache/0/7/0/ascent = 0.0
+cache/0/7/0/descent = 0.0
+cache/0/7/0/underline_position = 0.0
+cache/0/7/0/underline_thickness = 0.0
+cache/0/7/0/scale = 1.0
+cache/0/8/0/ascent = 0.0
+cache/0/8/0/descent = 0.0
+cache/0/8/0/underline_position = 0.0
+cache/0/8/0/underline_thickness = 0.0
+cache/0/8/0/scale = 1.0
+cache/0/9/0/ascent = 0.0
+cache/0/9/0/descent = 0.0
+cache/0/9/0/underline_position = 0.0
+cache/0/9/0/underline_thickness = 0.0
+cache/0/9/0/scale = 1.0
+cache/0/10/0/ascent = 0.0
+cache/0/10/0/descent = 0.0
+cache/0/10/0/underline_position = 0.0
+cache/0/10/0/underline_thickness = 0.0
+cache/0/10/0/scale = 1.0
+cache/0/11/0/ascent = 0.0
+cache/0/11/0/descent = 0.0
+cache/0/11/0/underline_position = 0.0
+cache/0/11/0/underline_thickness = 0.0
+cache/0/11/0/scale = 1.0
+cache/0/12/0/ascent = 0.0
+cache/0/12/0/descent = 0.0
+cache/0/12/0/underline_position = 0.0
+cache/0/12/0/underline_thickness = 0.0
+cache/0/12/0/scale = 1.0
+cache/0/13/0/ascent = 0.0
+cache/0/13/0/descent = 0.0
+cache/0/13/0/underline_position = 0.0
+cache/0/13/0/underline_thickness = 0.0
+cache/0/13/0/scale = 1.0
+cache/0/14/0/ascent = 0.0
+cache/0/14/0/descent = 0.0
+cache/0/14/0/underline_position = 0.0
+cache/0/14/0/underline_thickness = 0.0
+cache/0/14/0/scale = 1.0
+cache/0/15/0/ascent = 0.0
+cache/0/15/0/descent = 0.0
+cache/0/15/0/underline_position = 0.0
+cache/0/15/0/underline_thickness = 0.0
+cache/0/15/0/scale = 1.0
+cache/0/17/0/ascent = 0.0
+cache/0/17/0/descent = 0.0
+cache/0/17/0/underline_position = 0.0
+cache/0/17/0/underline_thickness = 0.0
+cache/0/17/0/scale = 1.0
+cache/0/18/0/ascent = 0.0
+cache/0/18/0/descent = 0.0
+cache/0/18/0/underline_position = 0.0
+cache/0/18/0/underline_thickness = 0.0
+cache/0/18/0/scale = 1.0
+cache/0/19/0/ascent = 0.0
+cache/0/19/0/descent = 0.0
+cache/0/19/0/underline_position = 0.0
+cache/0/19/0/underline_thickness = 0.0
+cache/0/19/0/scale = 1.0
+cache/0/20/0/ascent = 0.0
+cache/0/20/0/descent = 0.0
+cache/0/20/0/underline_position = 0.0
+cache/0/20/0/underline_thickness = 0.0
+cache/0/20/0/scale = 1.0
+cache/0/21/0/ascent = 0.0
+cache/0/21/0/descent = 0.0
+cache/0/21/0/underline_position = 0.0
+cache/0/21/0/underline_thickness = 0.0
+cache/0/21/0/scale = 1.0
+cache/0/22/0/ascent = 0.0
+cache/0/22/0/descent = 0.0
+cache/0/22/0/underline_position = 0.0
+cache/0/22/0/underline_thickness = 0.0
+cache/0/22/0/scale = 1.0
+cache/0/23/0/ascent = 0.0
+cache/0/23/0/descent = 0.0
+cache/0/23/0/underline_position = 0.0
+cache/0/23/0/underline_thickness = 0.0
+cache/0/23/0/scale = 1.0
+cache/0/24/0/ascent = 0.0
+cache/0/24/0/descent = 0.0
+cache/0/24/0/underline_position = 0.0
+cache/0/24/0/underline_thickness = 0.0
+cache/0/24/0/scale = 1.0
+cache/0/25/0/ascent = 0.0
+cache/0/25/0/descent = 0.0
+cache/0/25/0/underline_position = 0.0
+cache/0/25/0/underline_thickness = 0.0
+cache/0/25/0/scale = 1.0
+cache/0/26/0/ascent = 0.0
+cache/0/26/0/descent = 0.0
+cache/0/26/0/underline_position = 0.0
+cache/0/26/0/underline_thickness = 0.0
+cache/0/26/0/scale = 1.0
+cache/0/27/0/ascent = 0.0
+cache/0/27/0/descent = 0.0
+cache/0/27/0/underline_position = 0.0
+cache/0/27/0/underline_thickness = 0.0
+cache/0/27/0/scale = 1.0
+cache/0/28/0/ascent = 0.0
+cache/0/28/0/descent = 0.0
+cache/0/28/0/underline_position = 0.0
+cache/0/28/0/underline_thickness = 0.0
+cache/0/28/0/scale = 1.0
+cache/0/29/0/ascent = 0.0
+cache/0/29/0/descent = 0.0
+cache/0/29/0/underline_position = 0.0
+cache/0/29/0/underline_thickness = 0.0
+cache/0/29/0/scale = 1.0
+cache/0/30/0/ascent = 0.0
+cache/0/30/0/descent = 0.0
+cache/0/30/0/underline_position = 0.0
+cache/0/30/0/underline_thickness = 0.0
+cache/0/30/0/scale = 1.0
+cache/0/31/0/ascent = 0.0
+cache/0/31/0/descent = 0.0
+cache/0/31/0/underline_position = 0.0
+cache/0/31/0/underline_thickness = 0.0
+cache/0/31/0/scale = 1.0
+cache/0/32/0/ascent = 0.0
+cache/0/32/0/descent = 0.0
+cache/0/32/0/underline_position = 0.0
+cache/0/32/0/underline_thickness = 0.0
+cache/0/32/0/scale = 1.0
+cache/0/33/0/ascent = 0.0
+cache/0/33/0/descent = 0.0
+cache/0/33/0/underline_position = 0.0
+cache/0/33/0/underline_thickness = 0.0
+cache/0/33/0/scale = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cbfhl"]
+bg_color = Color(0.1428257, 0.1428257, 0.1428257, 0.657)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4fiuh"]
+bg_color = Color(1, 0.22935726, 0.20285092, 0.36800003)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [node name="CanvasModulate" type="CanvasModulate" unique_id=1991018634]
+script = ExtResource("1_3sbvi")
 
-[node name="bg" type="Node" parent="." unique_id=1932614539]
+[node name="bg" type="Node" parent="." unique_id=302930908]
 
-[node name="Background" type="Sprite2D" parent="bg" unique_id=889226300]
-z_index = -1
-position = Vector2(30.216553, 86.42505)
-scale = Vector2(4.8166666, 4.11875)
+[node name="Background" type="Sprite2D" parent="bg" unique_id=174025837]
+position = Vector2(-3.5, -25.00003)
+scale = Vector2(4.8125, 4.675)
 texture = ExtResource("3_nm1m0")
 
-[node name="Background2" type="Sprite2D" parent="bg" unique_id=668898147]
-z_index = -1
-position = Vector2(1097.0333, 559.6282)
-scale = Vector2(14.350277, 10.920352)
+[node name="Bg0" type="Sprite2D" parent="bg" unique_id=398488912]
+position = Vector2(-5.5, -9.0000305)
+scale = Vector2(4.804167, 4.925)
 texture = ExtResource("4_c7tqi")
 
-[node name="Background3" type="Sprite2D" parent="bg" unique_id=1615040700]
-z_index = -1
-position = Vector2(-20.000042, -11.500011)
-scale = Vector2(4.8499994, 3.9937503)
+[node name="Bg1" type="Sprite2D" parent="bg" unique_id=538427491]
+position = Vector2(-6, -11.500004)
+scale = Vector2(4.8166666, 4.95625)
 texture = ExtResource("5_cbfhl")
 
-[node name="Background4" type="Sprite2D" parent="bg" unique_id=450959239]
-z_index = -1
-position = Vector2(35.03322, 76.128174)
-scale = Vector2(23.200277, 16.964102)
+[node name="Bg2" type="Sprite2D" parent="bg" unique_id=347386649]
+position = Vector2(-1, -0.5000305)
+scale = Vector2(4.8166666, 5.01875)
 texture = ExtResource("6_4fiuh")
 
-[node name="Label" type="Label" parent="." unique_id=934801380]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -254.5
-offset_top = -258.0
-offset_right = 254.5
-offset_bottom = -121.0
-grow_horizontal = 2
-theme_override_fonts/font = ExtResource("1_2fwl4")
+[node name="Camera2D" type="Camera2D" parent="." unique_id=596002470]
+
+[node name="label" type="Label" parent="." unique_id=1670765802]
+z_index = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -111.0
+offset_top = -303.0
+offset_right = 119.0
+offset_bottom = -166.0
+grow_horizontal = 0
+theme_override_colors/font_shadow_color = Color(1, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_outline_size = 10
+theme_override_fonts/font = ExtResource("6_nm1m0")
 theme_override_font_sizes/font_size = 100
-text = "Platformia"
-metadata/_edit_use_anchors_ = true
+theme_override_styles/normal = SubResource("StyleBoxTexture_nm1m0")
+text = "YAKKO"
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1800412685]
-
-[node name="Button" type="Button" parent="." unique_id=2067716920]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=24140642]
+z_index = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -28.0
-offset_top = -15.5
-offset_right = 28.0
-offset_bottom = 15.5
+offset_left = -157.0
+offset_top = -95.0
+offset_right = 122.0
+offset_bottom = 173.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_fonts/font = ExtResource("2_dajm1")
-theme_override_font_sizes/font_size = 75
+theme_override_constants/separation = 30
+
+[node name="main" type="Button" parent="VBoxContainer" unique_id=931196148]
+process_mode = 3
+layout_mode = 2
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = SubResource("FontFile_c7tqi")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_cbfhl")
 text = "START"
-metadata/_edit_use_anchors_ = true
+
+[node name="quit" type="Button" parent="VBoxContainer" unique_id=576549246]
+process_mode = 3
+layout_mode = 2
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = SubResource("FontFile_c7tqi")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_4fiuh")
+text = "QUIT"
+
+[connection signal="pressed" from="VBoxContainer/main" to="." method="_on_main_pressed"]
+[connection signal="pressed" from="VBoxContainer/quit" to="." method="_on_quit_pressed"]

@@ -3,7 +3,20 @@
 [ext_resource type="Script" uid="uid://cehh0r7yd5bku" path="res://Scripts/enemy.gd" id="1_afpow"]
 [ext_resource type="Texture2D" uid="uid://bcsmp6g2adblj" path="res://platformer_metroidvania asset pack v1.01/enemies sprites/goblin/goblin_idle_anim_strip_4.png" id="1_hghv2"]
 [ext_resource type="Script" uid="uid://ch0hpixthq6kf" path="res://Scripts/attack.gd" id="2_1f0kj"]
+[ext_resource type="Texture2D" uid="uid://pi4bu523cbo7" path="res://platformer_metroidvania asset pack v1.01/enemies sprites/goblin/goblin_hit_anim_strip_3.png" id="2_0830c"]
 [ext_resource type="Texture2D" uid="uid://sspe1oyaj61n" path="res://platformer_metroidvania asset pack v1.01/enemies sprites/goblin/goblin_run_anim_strip_6.png" id="3_287tu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_56vhr"]
+atlas = ExtResource("2_0830c")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ta2yt"]
+atlas = ExtResource("2_0830c")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m4x7e"]
+atlas = ExtResource("2_0830c")
+region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1f0kj"]
 atlas = ExtResource("1_hghv2")
@@ -47,6 +60,20 @@ region = Rect2(80, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ghaa6"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_56vhr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ta2yt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m4x7e")
+}],
+"loop": true,
+"name": &"hit",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_1f0kj")
@@ -104,11 +131,11 @@ radius = 132.0
 script = ExtResource("1_afpow")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1490868244]
-modulate = Color(0.5529556, 0.55295557, 0.55295557, 1)
+modulate = Color(0.3665946, 0.36659464, 0.36659443, 1)
 position = Vector2(3.9999993, -5)
 scale = Vector2(1.4999999, 1.625)
 sprite_frames = SubResource("SpriteFrames_ghaa6")
-animation = &"jump"
+animation = &"hit"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1873314508]

@@ -4,8 +4,12 @@ extends CharacterBody2D
 @export var gravity: float = 900.0
 @export var jump_force: float = -350.0
 
+@onready var enemy: AnimatedSprite2D = $AnimatedSprite2D
+
+
 var player: Node2D = null
 var facing_right: bool = true
+var is_hurt = false
 
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 @onready var detect_area: Area2D = $DetectArea
@@ -22,7 +26,6 @@ func _physics_process(delta: float) -> void:
 		else:
 				velocity.x = 0
 
-		# Optional simple jump (random / movement-based, NOT player-based)
 		auto_jump()
 
 		move_and_slide()
@@ -45,18 +48,18 @@ func chase_player() -> void:
 				facing_right = false
 
 func auto_jump() -> void:
-		# ❗ Only jump if moving and on floor
-		# ❗ No player position involved at all
 		if is_on_floor() and abs(velocity.x) > 0:
-				# Small chance to jump (prevents spam)
 				if randi() % 120 == 0:
 						velocity.y = jump_force
-						print("AUTO JUMP 🚀")
 
 func update_animation() -> void:
 		anim.flip_h = not facing_right
 
-		if velocity.x != 0:
+		if is_hurt:
+			enemy.play("hit")
+			velocity.y = -400
+			velocity.x = 200
+		elif velocity.x != 0:
 				anim.play("run")
 		else:
 				anim.play("idle")
@@ -64,9 +67,26 @@ func update_animation() -> void:
 func _on_body_entered(body: Node) -> void:
 		if body.name == "Player":
 				player = body as Node2D
-				print("PLAYER ASSIGNED ✅")
 
 func _on_body_exited(body: Node) -> void:
 		if body == player:
 				player = null
-				print("PLAYER CLEARED ❌")
+
+var health = 50
+
+func take_damage(amount: int, from_position: Vector2) -> void:
+	health -= amount
+	print("Enemy took damage:", amount, "Remaining:", health)
+
+	# Optional: knockback
+	var direction = (global_position - from_position).normalized()
+	velocity = direction * 200
+	velocity.y = -150
+
+	if has_node("AnimatedSprite2D"):
+		is_hurt = true
+		await get_tree().create_timer(0.2).timeout
+		is_hurt = false
+	# Death
+	if health <= 0:
+		queue_free()
