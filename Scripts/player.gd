@@ -8,65 +8,77 @@ extends CharacterBody2D
 @onready var attack_area: Area2D = $AttackArea
 @onready var collision_shape: CollisionShape2D = $AttackArea/CollisionShape2D
 
+var target_scale: Vector2 = Vector2(0.5, 0.5)
+var scale_speed: float = 20.0
+
 var ability = GameManager.ability
 var shake_strength = 0.0
+
 const SPEED = 230.0
-const JUMP_VELOCITY = -400.0
-const gravity = 1.3
+
+@export var jump_velocity := -350.0
+@export var jump_hold_force := -1800.0
+@export var jump_hold_time := 0.2
+
+var jump_hold_timer := 0.0
+var is_jumping := false
+
+var gravity := 1.3
+
+var experience = GameManager.experience
+var skin = GameManager.skin
 
 # coyote
-var coyote_timer = 0.15
-const coyote_time = 0.15
+const coyote_time := 0.15
+var coyote_timer := 0.0
+
+var count = 0
 
 # jump buffer
-var jump_buffer_time = 0.15
-var jump_buffer_timer = 0.0
+const jump_buffer_time := 0.15
+var jump_buffer_timer := 0.0
 
 # movement accel
-var run = 1
+var run := 1.0
+
 # attack system
-var is_attacking = false
-var can_attack = true
+var is_attacking := false
+var can_attack := true
+
+# knockback
+var knockback: Vector2 = Vector2.ZERO
+var skin_scale := 0.5
+var damaged := false
+
+# climbing
+var is_climbing := false
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+
 	GameManager.health = 300
-	
-	# IMPORTANT: disable hitbox at start
+	GameManager.experience = experience
+
 	collision_shape.disabled = true
 	GameManager.have_weapon = false
 
+
 func _physics_process(delta: float) -> void:
+
+	GameManager.skin_scale = skin_scale
+	skin = GameManager.skin
 	ability = GameManager.ability
-	# =========================
-	# ATTACK INPUT (separate!)
-	# =========================
-	if Input.is_action_just_pressed("attack"):
-		if GameManager.have_weapon == true:
-			attack()
 
 	# =========================
-	# MOVEMENT
+	# INPUT
 	# =========================
 	var direction := Input.get_axis("left", "right")
 
-	if direction:
-		run += delta
-		character.play("run")
-		velocity.x = direction * SPEED * run / 1.3
-		
-		# flip sprite + attack direction
-		if direction < 0:
-			character.flip_h = true
-			attack_area.scale.x = -1
-		else:
-			character.flip_h = false
-			attack_area.scale.x = 1
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		if not is_attacking:
-			character.play("idle")
-		run = 1
+	# =========================
+	# ATTACK
+	# =========================
+	if Input.is_action_just_pressed("attack"):
+		attack()
 
 	# =========================
 	# JUMP BUFFER
@@ -77,17 +89,96 @@ func _physics_process(delta: float) -> void:
 		jump_buffer_timer -= delta
 
 	# =========================
+	# COYOTE TIME
+	# =========================
+	if is_on_floor() or is_climbing:
+		coyote_timer = coyote_time
+	else:
+		coyote_timer -= delta
+
+	# =========================
+	# CLIMB CHECK (FIXED)
+	# =========================
+	is_climbing = is_on_wall_only() and GameManager.can_climb
+
+	if is_climbing:
+		velocity.y = 0
+		gravity = 0
+	else:
+		gravity = 1.3
+
+	# =========================
 	# JUMP
 	# =========================
-	if jump_buffer_timer > 0 and coyote_timer > 0:
-		velocity.y = JUMP_VELOCITY
+	if jump_buffer_timer > 0 and (coyote_timer > 0 or is_climbing or (is_on_wall()) and GameManager.can_climb):
+		velocity.y = jump_velocity
+
+		is_jumping = true
+		jump_hold_timer = jump_hold_time
+
 		coyote_timer = 0
-		
+		jump_buffer_timer = 0
+
+		character.play(skin + "_jump")
+
 		shake_strength = 10
-		character.play("jump")
-		
 		jump_dust.visible = true
 		jump_dust.play("default")
+
+	# =========================
+	# HOLD JUMP
+	# =========================
+	if is_jumping and Input.is_action_pressed("jump"):
+		if jump_hold_timer > 0:
+			velocity.y += jump_hold_force * delta
+			jump_hold_timer -= delta
+		else:
+			is_jumping = false
+
+	if Input.is_action_just_released("jump"):
+		is_jumping = false
+
+	if velocity.y > 0:
+		is_jumping = false
+
+	# =========================
+	# GRAVITY
+	# =========================
+	if not is_on_floor() and not is_climbing:
+		velocity += get_gravity() * delta * gravity
+
+	# =========================
+	# MOVEMENT
+	# =========================
+	if is_on_floor() or is_on_wall_only():
+
+		if direction != 0:
+			run += delta
+			velocity.x = direction * SPEED * run / 1.3
+
+			if not is_attacking:
+				character.play(skin + "_run")
+
+			character.flip_h = direction < 0
+			attack_area.scale.x = -1 if direction < 0 else 1
+
+		else:
+			velocity.x = move_toward(velocity.x, 0, SPEED)
+
+			if not is_attacking:
+				character.play(skin + "_idle")
+
+			run = 1.0
+
+	else:
+		# air control
+		velocity.x = direction * SPEED
+
+		if not is_climbing:
+			character.play(skin + "_jump")
+
+	# clamp run accel
+	run = min(run, 2.0)
 
 	# =========================
 	# CAMERA SHAKE
@@ -102,23 +193,41 @@ func _physics_process(delta: float) -> void:
 		camera.offset = Vector2.ZERO
 
 	# =========================
-	# GRAVITY + COYOTE
+	# SQUASH / SCALE
 	# =========================
-	if is_on_floor():
-		coyote_timer = coyote_time
-	else:
-		velocity += get_gravity() * delta * gravity
-		coyote_timer -= delta
+	character.scale = character.scale.lerp(target_scale, scale_speed * delta)
 
-	# limit accel
-	if run > 1.8:
-		run = 1.8
+	# =========================
+	# KNOCKBACK
+	# =========================
+	if knockback.length() > 0:
+		velocity += knockback
+		knockback = knockback.move_toward(Vector2.ZERO, 800 * delta)
 
+	# =========================
+	# STATES
+	# =========================
+	if GameManager.health <= 0:
+		character.play(skin + "_dead")
+
+	elif damaged:
+		character.play(skin + "_hit")
+		damaged = false
+
+	if is_on_wall_only():
+		character.play(skin + "_grab")
+
+	if GameManager.animation == "power":
+		count += 1
+		if count == 1:
+			character.play(skin + "_power")
+			GameManager.animation = null
+		print(count)
 	move_and_slide()
 
 
 # =========================
-# ⚔️ ATTACK FUNCTION
+# ATTACK
 # =========================
 func attack():
 	if is_attacking or not can_attack:
@@ -127,22 +236,12 @@ func attack():
 	is_attacking = true
 	can_attack = false
 
-	# play animation
-	#character.play("attack")
-
-	# small delay (wind-up)
 	await get_tree().create_timer(0.05).timeout
-
-	# enable hitbox
 	collision_shape.disabled = false
 
-	# active frames
 	await get_tree().create_timer(0.1).timeout
-
-	# disable hitbox
 	collision_shape.disabled = true
 
-	# slight cooldown
 	await get_tree().create_timer(0.2).timeout
 
 	is_attacking = false
@@ -150,28 +249,44 @@ func attack():
 
 
 # =========================
-# 💥 HIT DETECTION
+# HIT ENEMY
 # =========================
 func _on_attack_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemy"):
 		shake_strength = 8
 		body.take_damage(ability, global_position)
-
+		experience += ability
+		print(experience)
 
 # =========================
-# OTHER STUFF (unchanged)
+# RESET SCENE
 # =========================
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		get_tree().reload_current_scene()
 
+
 func _enter_tree():
 	set_multiplayer_authority(name.to_int())
 
+
+# =========================
+# JUMP DUST FIX
+# =========================
 func _on_jump_dust_animation_finished() -> void:
 	jump_dust.visible = false
 
+
+# =========================
+# DAMAGE
+# =========================
 func _on_hurtbox_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemy"):
 		GameManager.take_damage(5)
+
 		shake_strength = 15
+		damaged = true
+
+		var direction = (global_position - body.global_position).normalized()
+		knockback = direction * 200
+		knockback.y = clamp(knockback.y, -100, 200)

@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://d3a2whi7xdv7g"]
+
+[ext_resource type="Script" uid="uid://dkvrxc6cirx2" path="res://Scripts/heart_growth.gd" id="1_utxqr"]
+[ext_resource type="Texture2D" uid="uid://bvko6gnmvq3be" path="res://Knight_player_1.4/Knight_player/Ledge_Grab_KG_1.png" id="2_6tug6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fv8k3"]
+atlas = ExtResource("2_6tug6")
+region = Rect2(0, 0, 100, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1e5kg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fv8k3")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sxnu8"]
+radius = 27.018513
+
+[node name="heart_growth" type="Area2D" unique_id=1084155926]
+rotation = 3.1415927
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_utxqr")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1542013854]
+position = Vector2(10, -4)
+rotation = 3.1415927
+scale = Vector2(0.92, 0.875)
+sprite_frames = SubResource("SpriteFrames_1e5kg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1584095446]
+position = Vector2(10.000002, -4)
+rotation = 3.1415927
+shape = SubResource("CircleShape2D_sxnu8")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

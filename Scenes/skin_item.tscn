@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://c48qy0yiaq76k"]
+
+[ext_resource type="Script" uid="uid://nech7qmyoyup" path="res://Scripts/skin_item.gd" id="1_4otrn"]
+[ext_resource type="Texture2D" uid="uid://c4jkqdy7qs6xq" path="res://individual_sheets/male_hero-combo_1.png" id="1_qtayk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4otrn"]
+atlas = ExtResource("1_qtayk")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m6qnk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4otrn")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sxnu8"]
+radius = 27.018513
+
+[node name="Area2D" type="Area2D" unique_id=1084155926]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_4otrn")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1542013854]
+position = Vector2(-5, -1)
+sprite_frames = SubResource("SpriteFrames_m6qnk")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1584095446]
+position = Vector2(13, -1)
+shape = SubResource("CircleShape2D_sxnu8")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
