@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://bxnna3cr2gukw" path="res://addons/trail_2d/trail_2d.gd" id="6_x3wgy"]
 [ext_resource type="Texture2D" uid="uid://bchkebd3iu1pq" path="res://Knight_player_1.4/Knight_player/Power_Up_KG_1.png" id="9_gymyn"]
 [ext_resource type="Texture2D" uid="uid://83gj6sjhsfel" path="res://Knight_player_1.4/Knight_player/Walking_KG_2.png" id="9_tx1dd"]
+[ext_resource type="Texture2D" uid="uid://bvko6gnmvq3be" path="res://Knight_player_1.4/Knight_player/Ledge_Grab_KG_1.png" id="11_pu2lt"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vfarp"]
 atlas = ExtResource("2_x3wgy")
@@ -224,6 +225,30 @@ region = Rect2(500, 0, 100, 64)
 atlas = ExtResource("9_tx1dd")
 region = Rect2(600, 0, 100, 64)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_bqbau"]
+atlas = ExtResource("11_pu2lt")
+region = Rect2(0, 0, 100, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f5f5t"]
+atlas = ExtResource("11_pu2lt")
+region = Rect2(100, 0, 100, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qvbpb"]
+atlas = ExtResource("11_pu2lt")
+region = Rect2(200, 0, 100, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sscpr"]
+atlas = ExtResource("11_pu2lt")
+region = Rect2(300, 0, 100, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_by7i4"]
+atlas = ExtResource("11_pu2lt")
+region = Rect2(400, 0, 100, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3uvy8"]
+atlas = ExtResource("11_pu2lt")
+region = Rect2(500, 0, 100, 64)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_x3wgy"]
 animations = [{
 "frames": [{
@@ -429,6 +454,29 @@ animations = [{
 "loop": true,
 "name": &"girl_run",
 "speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bqbau")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f5f5t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qvbpb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sscpr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_by7i4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3uvy8")
+}],
+"loop": true,
+"name": &"girl_wallslide",
+"speed": 5.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cvnsp"]
@@ -535,7 +583,7 @@ script = ExtResource("1_cvnsp")
 position = Vector2(1, 1.1920929e-07)
 scale = Vector2(0.5625, 0.53125)
 sprite_frames = SubResource("SpriteFrames_x3wgy")
-animation = &"girl_power"
+animation = &"girl_wallslide"
 autoplay = "girl_idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1930001022]

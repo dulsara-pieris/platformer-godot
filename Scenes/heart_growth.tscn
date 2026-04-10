@@ -1,17 +1,13 @@
 [gd_scene format=3 uid="uid://d3a2whi7xdv7g"]
 
 [ext_resource type="Script" uid="uid://dkvrxc6cirx2" path="res://Scripts/heart_growth.gd" id="1_utxqr"]
-[ext_resource type="Texture2D" uid="uid://bvko6gnmvq3be" path="res://Knight_player_1.4/Knight_player/Ledge_Grab_KG_1.png" id="2_6tug6"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fv8k3"]
-atlas = ExtResource("2_6tug6")
-region = Rect2(0, 0, 100, 64)
+[ext_resource type="Texture2D" uid="uid://c6eqohsjk46em" path="res://platformer_metroidvania asset pack v1.01/hud elements/hearts_hud.png" id="2_utxqr"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_1e5kg"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fv8k3")
+"texture": ExtResource("2_utxqr")
 }],
 "loop": true,
 "name": &"default",
@@ -27,9 +23,9 @@ scale = Vector2(0.5, 0.5)
 script = ExtResource("1_utxqr")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1542013854]
-position = Vector2(10, -4)
+position = Vector2(9.162132, -5.070271)
 rotation = 3.1415927
-scale = Vector2(0.92, 0.875)
+scale = Vector2(2.3307633, 2.2847216)
 sprite_frames = SubResource("SpriteFrames_1e5kg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1584095446]

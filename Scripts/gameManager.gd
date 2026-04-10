@@ -7,18 +7,16 @@ var ability = 10
 var experience = 0
 var skin = "girl"
 var skin_scale
-var can_climb = false
+var can_climb = true    # enables wall grab + wall jump
 var animation
+var grip: float = 1.0   # 0.0–1.0 stamina, written every frame by player.gd
 
 func _ready():
 	inventory = InventoryManager.new()
-	can_climb = false
-
 
 func take_damage(amount: int) -> void:
 	health -= amount
 	print("HIT! Health:", health)
-
 	if health <= 0:
 		die()
 
