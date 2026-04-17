@@ -1,5 +1,7 @@
 extends Node
 
+var save_path = "user"
+
 var health = 300
 var have_weapon = true
 var inventory

@@ -12,8 +12,8 @@ extends CharacterBody2D
 # ═══════════════════════════════════════════════════════════
 #  STATS
 # ═══════════════════════════════════════════════════════════
-var ability:    int   = 0
-var experience: int   = 0
+var ability:    int    = 0
+var experience: int    = 0
 var skin:       String = ""
 var skin_scale: float  = 0.5
 
@@ -35,12 +35,12 @@ var dtap_armed:    bool  = false
 const DASH_SPEED:  float = 800.0
 const DASH_DUR:    float = 0.11
 const DASH_FREEZE: float = 0.035
-var is_dashing:       bool    = false
-var dash_timer:       float   = 0.0
-var dash_dir:         Vector2 = Vector2.ZERO
-var can_dash:         bool    = true
-var is_dash_frozen:   bool    = false
-var dash_freeze_timer:float   = 0.0
+var is_dashing:        bool    = false
+var dash_timer:        float   = 0.0
+var dash_dir:          Vector2 = Vector2.ZERO
+var can_dash:          bool    = true
+var is_dash_frozen:    bool    = false
+var dash_freeze_timer: float   = 0.0
 
 # ── momentum ───────────────────────────────────────────────
 var momentum:     float = 1.0
@@ -95,9 +95,9 @@ var grav:         float = 2.5
 #  WALL GRIP / STAMINA (Celeste-style)
 # ═══════════════════════════════════════════════════════════
 const GRIP_MAX:               float = 1.0
-const GRIP_DRAIN:             float = 0.20   # /s while holding
-const GRIP_CLIMB_DRAIN:       float = 0.38   # /s extra while climbing UP
-const GRIP_WALL_JUMP_RESTORE: float = 0.28   # refund on wall-jump
+const GRIP_DRAIN:             float = 0.20
+const GRIP_CLIMB_DRAIN:       float = 0.38
+const GRIP_WALL_JUMP_RESTORE: float = 0.28
 
 const WALL_CLIMB_UP_SPD: float = 115.0
 const WALL_CLIMB_DN_SPD: float = 65.0
@@ -118,53 +118,62 @@ var is_pounding:    bool  = false
 var is_attacking: bool  = false
 var can_attack:   bool  = true
 
-var combo:             int   = 0
-var combo_timer:       float = 0.0
-const COMBO_WINDOW:    float = 0.52
-const COMBO_MAX:       int   = 3
+var combo:          int   = 0
+var combo_timer:    float = 0.0
+const COMBO_WINDOW: float = 0.52
+const COMBO_MAX:    int   = 3
 
-var atk_hold:          float = 0.0
-var is_charging:       bool  = false
-var charge_ready:      bool  = false
-var charge_dmg_ready:  bool  = false
-const CHARGE_TIME:     float = 0.38
+var atk_hold:         float = 0.0
+var is_charging:      bool  = false
+var charge_ready:     bool  = false
+var charge_dmg_ready: bool  = false
+const CHARGE_TIME:    float = 0.38
 
-var heat:              float = 0.0
-const HEAT_PER_HIT:    float = 24.0
-const HEAT_DECAY:      float = 8.5
-const HEAT_ATK_BONUS:  float = 0.32
+var heat:             float = 0.0
+const HEAT_PER_HIT:   float = 24.0
+const HEAT_DECAY:     float = 8.5
+const HEAT_ATK_BONUS: float = 0.32
 
-var parry_timer:       float = 0.0
-const PARRY_WINDOW:    float = 0.11
+var parry_timer:    float = 0.0
+const PARRY_WINDOW: float = 0.11
 
 # ═══════════════════════════════════════════════════════════
 #  DAMAGE
 # ═══════════════════════════════════════════════════════════
-var knockback:    Vector2 = Vector2.ZERO
-var damaged:      bool    = false
-var iframe_timer: float   = 0.0
-const IFRAME_TIME:float   = 0.75
+var knockback:     Vector2 = Vector2.ZERO
+var damaged:       bool    = false
+var iframe_timer:  float   = 0.0
+const IFRAME_TIME: float   = 0.75
 
 # ═══════════════════════════════════════════════════════════
 #  DEATH / MISC
 # ═══════════════════════════════════════════════════════════
-var is_dead:    bool  = false
-var is_climbing:bool  = false
+var is_dead:     bool = false
+var is_climbing: bool = false
 
 # ═══════════════════════════════════════════════════════════
 #  SLOW MOTION
 # ═══════════════════════════════════════════════════════════
-var slowmo_timer:       float = 0.0
-const SLOWMO_SCALE:     float = 0.2
-const SLOWMO_RESTORE:   float = 18.0
+var slowmo_timer:     float = 0.0
+const SLOWMO_SCALE:   float = 0.2
+const SLOWMO_RESTORE: float = 18.0
+
+# ── hitpause (short freeze on hit, separate from slowmo) ───
+# BUG FIX: was using Engine.time_scale = 1.0 directly in
+# _on_attack_area_body_entered which snapped out of any active
+# slowmo_timer. Now uses a dedicated hitpause timer that
+# blends with the existing slowmo system.
+var hitpause_timer: float = 0.0
+const HITPAUSE_DUR:  float = 0.032
+const HITPAUSE_SCALE:float = 0.03
 
 # ═══════════════════════════════════════════════════════════
 #  TRAUMA SHAKE
 # ═══════════════════════════════════════════════════════════
-var trauma:          float   = 0.0
-const TRAUMA_DECAY:  float   = 2.2
-var shake_dir:       Vector2 = Vector2.ZERO
-var shake_t:         float   = 0.0
+var trauma:         float   = 0.0
+const TRAUMA_DECAY: float   = 2.2
+var shake_dir:      Vector2 = Vector2.ZERO
+var shake_t:        float   = 0.0
 
 func _hit(t: float) -> void:
 	trauma = minf(trauma + t, 1.0)
@@ -174,44 +183,44 @@ func _hit_dir(t: float, d: Vector2) -> void:
 	shake_dir = d.normalized()
 
 # ═══════════════════════════════════════════════════════════
-#  CAMERA  — critically-damped spring + predictive lead
+#  CAMERA — critically-damped spring + predictive lead
 # ═══════════════════════════════════════════════════════════
 
 # ── spring ────────────────────────────────────────────────
-const CAM_FREQ_X:     float = 7.0
-const CAM_FREQ_Y:     float = 4.5
-const CAM_DAMP_X:     float = 1.0
-const CAM_DAMP_Y:     float = 1.0
+const CAM_FREQ_X: float = 7.0
+const CAM_FREQ_Y: float = 4.5
+const CAM_DAMP_X: float = 1.0
+const CAM_DAMP_Y: float = 1.0
 
 # ── lookahead ─────────────────────────────────────────────
-const LEAD_X:         float = 120.0
-const LEAD_Y_FALL:    float = 80.0
-const LEAD_Y_RISE:    float = 28.0
-const LEAD_SPD_X:     float = 8.0
-const LEAD_SPD_Y:     float = 2.8
-const CAM_BIAS_Y:     float = -28.0
+const LEAD_X:      float = 120.0
+const LEAD_Y_FALL: float = 80.0
+const LEAD_Y_RISE: float = 28.0
+const LEAD_SPD_X:  float = 8.0
+const LEAD_SPD_Y:  float = 2.8
+const CAM_BIAS_Y:  float = -28.0
 
 # ── deadzones ─────────────────────────────────────────────
-const DEAD_X:         float = 0.08
-const DEAD_Y:         float = 48.0
+const DEAD_X: float = 0.08
+const DEAD_Y: float = 48.0
 
 # ── manual peek ───────────────────────────────────────────
-const PEEK_DIST:      float = 80.0
-const PEEK_SPD_IN:    float = 2.0
-const PEEK_SPD_OUT:   float = 7.0
-var cam_peek:         float = 0.0
+const PEEK_DIST:    float = 80.0
+const PEEK_SPD_IN:  float = 2.0
+const PEEK_SPD_OUT: float = 7.0
+var cam_peek:       float = 0.0
 
 # ── wall peek ─────────────────────────────────────────────
-const WALL_PEEK:      float = 50.0
-const WALL_PEEK_SPD:  float = 5.0
-var cam_wall_peek:    float = 0.0
+const WALL_PEEK:     float = 50.0
+const WALL_PEEK_SPD: float = 5.0
+var cam_wall_peek:   float = 0.0
 
 # ── land impact dip ───────────────────────────────────────
 const IMPACT_DIP_MAX: float = 16.0
 const IMPACT_FREQ:    float = 6.0
 const IMPACT_DAMP:    float = 1.0
-var cam_impact:       float = 0.0
-var cam_impact_vel:   float = 0.0
+var cam_impact:     float = 0.0
+var cam_impact_vel: float = 0.0
 
 # ── zoom ──────────────────────────────────────────────────
 const ZOOM_BASE:      float = 1.0
@@ -229,9 +238,9 @@ var idle_timer:       float = 0.0
 const IDLE_ZOOM_WAIT: float = 2.0
 
 # ── shake ─────────────────────────────────────────────────
-const SHAKE_RATE:     float = 7.0
-const SHAKE_XY:       float = 10.0
-const SHAKE_ROT:      float = 0.010
+const SHAKE_RATE: float = 7.0
+const SHAKE_XY:   float = 10.0
+const SHAKE_ROT:  float = 0.010
 
 # ── zoom punch ────────────────────────────────────────────
 var zpunch_timer: float = 0.0
@@ -257,8 +266,8 @@ var ty: float = 0.5
 const SX_SPD: float = 40.0
 const SY_SPD: float = 20.0
 
-var tilt_tgt:  float = 0.0
-var was_floor: bool  = false
+var tilt_tgt:   float = 0.0
+var was_floor:  bool  = false
 var land_freeze:float = 0.0
 const FREEZE_HEAVY: float = 0.05
 var spd_ratio:  float = 0.0
@@ -270,8 +279,8 @@ func _squash(qx: float, qy: float) -> void:
 # ═══════════════════════════════════════════════════════════
 #  AFTERIMAGE
 # ═══════════════════════════════════════════════════════════
-var ghost_timer: float        = 0.0
-const GHOST_INTERVAL: float   = 0.028
+var ghost_timer: float      = 0.0
+const GHOST_INTERVAL: float = 0.028
 
 # ═══════════════════════════════════════════════════════════
 #  WIND
@@ -331,6 +340,16 @@ func _ready() -> void:
 # ═══════════════════════════════════════════════════════════
 func _physics_process(delta: float) -> void:
 	if is_dead:
+		return
+
+	# ── HITPAUSE ──────────────────────────────────────────
+	# BUG FIX: hitpause is now managed here so it doesn't
+	# fight with slowmo_timer or snap Engine.time_scale = 1.0
+	# when slowmo is still active.
+	if hitpause_timer > 0.0:
+		hitpause_timer -= delta
+		Engine.time_scale = lerp(Engine.time_scale, HITPAUSE_SCALE, 30.0 * delta)
+		move_and_slide()
 		return
 
 	# ── SLOW MOTION ───────────────────────────────────────
@@ -427,7 +446,7 @@ func _physics_process(delta: float) -> void:
 
 	# ── DASH ACTIVE ───────────────────────────────────────
 	if is_dashing:
-		dash_timer -= delta
+		dash_timer  -= delta
 		ghost_timer -= delta
 		if ghost_timer <= 0.0:
 			ghost_timer = GHOST_INTERVAL
@@ -456,6 +475,11 @@ func _physics_process(delta: float) -> void:
 		elif not Input.is_action_pressed("attack"):
 			atk_hold    = 0.0
 			is_charging = false
+			# BUG FIX: if the player taps attack during charge wind-up but
+			# releases before CHARGE_TIME, charge_ready could be left true
+			# from a prior interrupted charge. Clear it here.
+			if not is_attacking:
+				charge_ready = false
 
 	# ── SLIDE: down + running on floor ────────────────────
 	if Input.is_action_just_pressed("ui_down") and on_floor and absf(velocity.x) > 70.0 and not is_sliding:
@@ -489,13 +513,14 @@ func _physics_process(delta: float) -> void:
 		j_buffer_timer = J_BUFFER
 		parry_timer    = PARRY_WINDOW
 	else:
-		j_buffer_timer -= delta
+		# BUG FIX: clamp to 0 so it never drifts negative
+		j_buffer_timer = maxf(j_buffer_timer - delta, 0.0)
 
 	# ── COYOTE ────────────────────────────────────────────
 	if on_floor or is_climbing:
 		coyote_timer = COYOTE
 	else:
-		coyote_timer -= delta
+		coyote_timer = maxf(coyote_timer - delta, 0.0)
 
 	# ── WALL GRIP / CLIMB (Celeste-style) ─────────────────
 	var can_grip: bool = (
@@ -514,9 +539,9 @@ func _physics_process(delta: float) -> void:
 			velocity.y  = -WALL_CLIMB_UP_SPD
 			drain      += GRIP_CLIMB_DRAIN * delta
 		elif climb_input > 0.3:
-			velocity.y  = WALL_CLIMB_DN_SPD
+			velocity.y = WALL_CLIMB_DN_SPD
 		else:
-			velocity.y  = 0.0
+			velocity.y = 0.0
 
 		grip -= drain
 		if grip <= 0.0:
@@ -563,7 +588,6 @@ func _physics_process(delta: float) -> void:
 		wall_dir = 1.0 if wn.x > 0.0 else -1.0
 
 	var pressing_into_wall: bool = (on_wall or is_climbing) and dir != 0.0 and dir == -wall_dir
-
 	var can_wall_j:  bool = (on_wall or is_climbing) and GameManager.can_climb and wall_dir != 0.0
 	var can_floor_j: bool = coyote_timer > 0.0 or is_climbing
 
@@ -614,7 +638,11 @@ func _physics_process(delta: float) -> void:
 		var spd: float = SPEED * momentum
 		if wall_lock > 0.0:
 			pass
-		elif on_floor or on_wall:
+		# BUG FIX: was `on_floor or on_wall`, which would play _run/_idle on
+		# the wall and then immediately overwrite with _grab/_wallslide below.
+		# Now only the grounded branch runs ground movement; wall movement is
+		# handled solely in the animation block.
+		elif on_floor and not on_wall:
 			if dir != 0.0:
 				velocity.x = dir * spd
 				if not is_attacking:
@@ -630,10 +658,12 @@ func _physics_process(delta: float) -> void:
 		else:
 			if dir != 0.0:
 				velocity.x = move_toward(velocity.x, dir * spd * AIR_CONTROL, spd * 8.0 * delta)
-				character.flip_h = dir < 0.0
+				character.flip_h    = dir < 0.0
+				attack_area.scale.x = -1.0 if dir < 0.0 else 1.0
 			else:
 				velocity.x = move_toward(velocity.x, 0.0, AIR_STOP * delta)
-			if not is_climbing:
+			# Only show jump anim when truly airborne (not on wall)
+			if not is_climbing and not on_wall:
 				character.play(skin + "_jump")
 
 	# ── TILT ──────────────────────────────────────────────
@@ -725,7 +755,6 @@ func _physics_process(delta: float) -> void:
 	else:
 		cam_peek = lerp(cam_peek, 0.0, PEEK_SPD_OUT * delta)
 
-	# FIX 6: use is_on_wall_only() to match the on_wall variable — was is_on_wall()
 	var wall_peek_tgt: float = 0.0
 	if is_climbing and is_on_wall_only():
 		var wn: Vector2 = get_wall_normal()
@@ -752,7 +781,7 @@ func _physics_process(delta: float) -> void:
 
 	# ── KNOCKBACK ─────────────────────────────────────────
 	if knockback.length() > 0.0:
-		velocity += knockback
+		velocity  += knockback
 		knockback  = knockback.move_toward(Vector2.ZERO, 1300.0 * delta)
 
 	# ── GRIP HUD ──────────────────────────────────────────
@@ -761,17 +790,18 @@ func _physics_process(delta: float) -> void:
 	# ── ANIM STATES ───────────────────────────────────────
 	if GameManager.health <= 0:
 		die()
+		return  # BUG FIX: was missing — without this, code below still runs
 	elif damaged:
 		character.play(skin + "_hit")
 		damaged = false
 
-	# FIX 2: passive wall-slide gets its own distinct animation
+	# Wall animations — placed AFTER horizontal movement so they
+	# are the final write to character.play() this frame.
 	if on_wall and is_climbing:
 		character.play(skin + "_grab")
 	elif on_wall:
 		character.play(skin + "_wallslide")
 
-	# FIX 1: removed broken count variable — power anim now triggers correctly every time
 	if GameManager.animation == "power":
 		character.play(skin + "_power")
 		GameManager.animation = null
@@ -782,9 +812,10 @@ func _physics_process(delta: float) -> void:
 #  AFTERIMAGE
 # ═══════════════════════════════════════════════════════════
 func _ghost() -> void:
+	if not character.sprite_frames:  # BUG FIX: guard against missing sprite frames
+		return
 	var g: Sprite2D = Sprite2D.new()
-	g.texture = character.sprite_frames.get_frame_texture(character.animation, character.frame)
-	# FIX 5: copy full transform so child offset, scale, and rotation are all preserved
+	g.texture          = character.sprite_frames.get_frame_texture(character.animation, character.frame)
 	g.global_transform = character.global_transform
 	g.flip_h           = character.flip_h
 	g.modulate         = Color(0.5, 0.75, 1.0, 0.5)
@@ -827,6 +858,8 @@ func _wall_hop() -> void:
 	is_jumping       = true
 	jump_hold_timer  = JUMP_HOLD_TIME * 0.7
 	j_buffer_timer   = 0.0
+	# BUG FIX: clear coyote so a floor jump can't fire the same frame
+	coyote_timer     = 0.0
 	grip = maxf(grip - 0.22, 0.0)
 	if grip <= 0.0:
 		grip_exhausted = true
@@ -841,6 +874,8 @@ func _wall_jump(wd: float) -> void:
 	is_jumping       = true
 	jump_hold_timer  = JUMP_HOLD_TIME * 0.6
 	j_buffer_timer   = 0.0
+	# BUG FIX: clear coyote so a floor jump can't also trigger
+	coyote_timer     = 0.0
 	wall_lock        = 0.15
 	grip = minf(grip + GRIP_WALL_JUMP_RESTORE, GRIP_MAX)
 	_squash(0.38, 1.78)
@@ -959,10 +994,19 @@ func _attack() -> void:
 		_zpunch(0.11)
 
 		await get_tree().create_timer(0.06 / spd_mul, true).timeout
+		# BUG FIX: check is_dead after every await — the scene may have
+		# reloaded while the coroutine was suspended, leaving `is_attacking`
+		# and `can_attack` in a dirty state on the new instance.
+		if is_dead:
+			return
 		collision_shape.disabled = false
 		await get_tree().create_timer(0.2 / spd_mul, true).timeout
+		if is_dead:
+			return
 		collision_shape.disabled = true
 		await get_tree().create_timer(0.3 / spd_mul, true).timeout
+		if is_dead:
+			return
 		charge_dmg_ready = false
 		is_attacking     = false
 		can_attack       = true
@@ -1001,10 +1045,16 @@ func _attack() -> void:
 	var dur_b: float = (0.12  if combo < 3 else 0.26)  / spd_mul
 
 	await get_tree().create_timer(dur_a, true).timeout
+	if is_dead:
+		return
 	collision_shape.disabled = false
 	await get_tree().create_timer(0.09 / spd_mul, true).timeout
+	if is_dead:
+		return
 	collision_shape.disabled = true
 	await get_tree().create_timer(dur_b, true).timeout
+	if is_dead:
+		return
 	is_attacking = false
 	can_attack   = true
 
@@ -1015,9 +1065,10 @@ func _on_attack_area_body_entered(body: Node2D) -> void:
 	if not body.is_in_group("enemy"):
 		return
 
-	Engine.time_scale = 0.03
-	await get_tree().create_timer(0.032, true).timeout
-	Engine.time_scale = 1.0
+	# BUG FIX: previously set Engine.time_scale = 0.03 then awaited and
+	# snapped back to 1.0, which overwrote any ongoing slowmo_timer.
+	# Now uses hitpause_timer so _physics_process controls the blend.
+	hitpause_timer = HITPAUSE_DUR
 
 	var dmg: int = ability
 	if charge_dmg_ready:
@@ -1030,19 +1081,17 @@ func _on_attack_area_body_entered(body: Node2D) -> void:
 	_zpunch(0.09)
 	body.take_damage(dmg, global_position)
 
-	# FIX 3: sync experience back to GameManager so it isn't lost on scene change
 	experience += dmg
 	GameManager.experience = experience
 
-	# stomp bounce
+	# Stomp bounce
 	if global_position.y < body.global_position.y - 8.0:
 		velocity.y = -430.0
 		_squash(1.38, 0.56)
 		jumps_left = MAX_JUMPS
 
-# FIX 4: removed unreachable `body == self` check — CharacterBody2D cannot enter its own child Area2D
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body.is_in_group("death"):
+	if body.is_in_group("Player"):
 		die()
 
 func _on_jump_dust_animation_finished() -> void:
@@ -1052,13 +1101,17 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 	if not body.is_in_group("enemy") or iframe_timer > 0.0:
 		return
 
-	# perfect parry
+	# Perfect parry
 	if parry_timer > 0.0:
 		parry_timer  = 0.0
 		slowmo_timer = 0.42
 		can_dash     = true
 		jumps_left   = MAX_JUMPS
 		velocity.y   = -300.0
+		# BUG FIX: clear any stale charge state on parry so a queued
+		# charge_ready doesn't fire immediately after the parry
+		charge_ready     = false
+		charge_dmg_ready = false
 		_squash(1.45, 0.52)
 		_hit(0.14)
 		_zpunch(0.09)
@@ -1069,15 +1122,28 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 	var d: Vector2 = (global_position - body.global_position).normalized()
 	_hit_dir(0.58, -d)
 	_zpunch(0.11)
-	damaged     = true
-	knockback   = d * 320.0
+	damaged   = true
+	knockback = d * 320.0
 	knockback.y = clamp(knockback.y, -170.0, 260.0)
+
+	# BUG FIX: interrupt any active charge on damage so charge_ready
+	# doesn't silently persist through the hit-stun frames
+	atk_hold     = 0.0
+	is_charging  = false
+	charge_ready = false
 
 # ═══════════════════════════════════════════════════════════
 #  DEATH
 # ═══════════════════════════════════════════════════════════
 func die() -> void:
+	# BUG FIX: no guard existed — die() could be called multiple times in the
+	# same frame (e.g. health check in _physics_process AND a kill-zone signal
+	# firing simultaneously), calling reload_current_scene() twice and causing
+	# a crash or double-reload.
 	if is_dead:
 		return
 	is_dead = true
+	# Ensure collision_shape is disabled so no further hit signals fire
+	# while the reload is pending.
+	collision_shape.disabled = true
 	get_tree().reload_current_scene()
