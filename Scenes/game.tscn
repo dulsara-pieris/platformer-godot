@@ -1319,6 +1319,16 @@ scale_amount_max = 0.05
 hue_variation_min = -0.7
 script = ExtResource("6_1l0tm")
 
+[node name="Label" type="Label" parent="UI/Panel" unique_id=1309837857]
+layout_mode = 0
+offset_left = 32.0
+offset_top = -496.0
+offset_right = 72.0
+offset_bottom = -473.0
+theme_override_fonts/font = ExtResource("8_ldgsr")
+theme_override_font_sizes/font_size = 44
+text = "122"
+
 [node name="pause" type="Node" parent="UI" unique_id=2033638731]
 script = ExtResource("6_h4fw4")
 

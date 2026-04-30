@@ -4,6 +4,8 @@ extends Panel
 @onready var heart_2: AnimatedSprite2D = $HBoxContainer/Heart2
 @onready var heart_3: AnimatedSprite2D = $HBoxContainer/Heart3
 
+@onready var score: Label = $Label
+
 var last_health := -1
 var health
 
@@ -29,6 +31,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	score.text = "score: " + (str(GameManager.experience))
 	health = GameManager.health
 	if health == last_health:
 		return
