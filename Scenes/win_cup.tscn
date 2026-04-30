@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://bbq8nxetkurq7"]
+
+[ext_resource type="Script" uid="uid://ctk425udy4fhr" path="res://Scripts/win_cup.gd" id="1_22rh4"]
+[ext_resource type="Texture2D" uid="uid://ca1en64lf2f3w" path="res://End (Idle).png" id="2_855xl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_u2wfx"]
+radius = 18.0
+
+[node name="Win" type="Area2D" unique_id=1640652669]
+script = ExtResource("1_22rh4")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=238551025]
+position = Vector2(-9.536743e-07, -3.999998)
+scale = Vector2(0.5546875, 0.5703125)
+texture = ExtResource("2_855xl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=227070761]
+modulate = Color(0.39264008, 0.3926401, 0.39264008, 1)
+position = Vector2(-1, 0)
+shape = SubResource("CircleShape2D_u2wfx")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

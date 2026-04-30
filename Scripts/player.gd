@@ -27,7 +27,6 @@ const AIR_STOP:     float = 460.0
 const TERMINAL_VEL: float = 1050.0
 
 # ── double-tap dash (no extra button) ──────────────────────
-# IMPROVEMENT: window widened 0.18 → 0.22 for a more forgiving feel on keyboard.
 const DTAP_WINDOW: float = 0.22
 var dtap_timer:    float = 0.0
 var dtap_last_dir: float = 0.0
@@ -119,10 +118,6 @@ var is_pounding:    bool  = false
 var is_attacking: bool  = false
 var can_attack:   bool  = true
 
-# BUG FIX: attack_id is incremented each time a new attack starts.
-# The coroutine captures its own id and returns early if it no longer matches,
-# preventing stale collision_shape enables / dirty is_attacking state after
-# damage interrupts an in-flight combo.
 var attack_id: int = 0
 
 var combo:          int   = 0
@@ -165,7 +160,7 @@ var slowmo_timer:     float = 0.0
 const SLOWMO_SCALE:   float = 0.2
 const SLOWMO_RESTORE: float = 18.0
 
-# ── hitpause (short freeze on hit, separate from slowmo) ───
+# ── hitpause ───────────────────────────────────────────────
 var hitpause_timer: float = 0.0
 const HITPAUSE_DUR:  float = 0.032
 const HITPAUSE_SCALE:float = 0.03
@@ -336,8 +331,6 @@ func _ready() -> void:
 	zoom_tgt       = ZOOM_BASE
 	idle_timer     = 0.0
 	shake_t        = 0.0
-	# IMPROVEMENT: skin_scale is constant at runtime — set once here
-	# instead of writing GameManager.skin_scale every physics frame.
 	GameManager.skin_scale = skin_scale
 	_new_wind()
 
@@ -436,8 +429,6 @@ func _physics_process(delta: float) -> void:
 
 	if Input.is_action_just_pressed("ui_left") or Input.is_action_just_pressed("ui_right"):
 		var tap_dir: float = -1.0 if Input.is_action_just_pressed("ui_left") else 1.0
-		# BUG FIX: added `not is_sliding` and `not is_attacking` — previously
-		# a dash could fire mid-slide or mid-combo, breaking animation state.
 		if dtap_armed and tap_dir == dtap_last_dir and can_dash \
 				and not is_dashing and not is_dash_frozen \
 				and not is_sliding and not is_attacking:
@@ -460,6 +451,9 @@ func _physics_process(delta: float) -> void:
 		velocity = dash_dir * DASH_SPEED
 		if dash_dir.y >= 0.0:
 			velocity.y += get_gravity().y * delta * 0.22
+		# ANIM FIX: play dash anim here — was missing entirely because the
+		# early return below skipped all the animation code at the bottom.
+		character.play(skin + "_dash")
 		if dash_timer <= 0.0:
 			is_dashing = false
 			velocity  *= 0.28
@@ -472,6 +466,8 @@ func _physics_process(delta: float) -> void:
 		if atk_hold >= CHARGE_TIME and not is_charging:
 			is_charging = true
 			tx = 0.4; ty = 0.62
+			# ANIM FIX: charging state had squash/stretch but never played an anim.
+			character.play(skin + "_charge")
 	else:
 		if is_charging and atk_hold >= CHARGE_TIME:
 			is_charging  = false
@@ -485,8 +481,6 @@ func _physics_process(delta: float) -> void:
 				charge_ready = false
 
 	# ── SLIDE: down + running on floor ────────────────────
-	# BUG FIX: added `not is_attacking` — previously a slide could start
-	# mid-combo, breaking the attack coroutine's animation state.
 	if Input.is_action_just_pressed("ui_down") and on_floor \
 			and absf(velocity.x) > 70.0 and not is_sliding and not is_attacking:
 		_slide()
@@ -494,13 +488,14 @@ func _physics_process(delta: float) -> void:
 	if is_sliding:
 		slide_timer -= delta
 		velocity.x   = move_toward(velocity.x, 0.0, SLIDE_DRAG * delta)
+		# ANIM FIX: the `if not is_sliding:` block below skips all movement
+		# anims when sliding, but nothing was playing a slide anim to fill the gap.
+		character.play(skin + "_slide")
 		if slide_timer <= 0.0 or absf(velocity.x) < 35.0:
 			is_sliding = false
 			tx = 0.5; ty = 0.5
 
 	# ── GROUND POUND: down in air ─────────────────────────
-	# BUG FIX: added `not is_attacking` — pounding mid-attack left
-	# the attack coroutine running with an undefined motion context.
 	if Input.is_action_just_pressed("ui_down") and not on_floor \
 			and not is_pounding and not is_climbing and not is_attacking:
 		_pound_start()
@@ -515,8 +510,6 @@ func _physics_process(delta: float) -> void:
 
 	# ── ATTACK ────────────────────────────────────────────
 	if Input.is_action_just_pressed("attack") and not is_charging:
-		# IMPROVEMENT: attacking while sliding cancels the slide —
-		# gives the player meaningful agency over momentum vs. combat.
 		if is_sliding:
 			is_sliding = false
 			tx = 0.5; ty = 0.5
@@ -589,8 +582,6 @@ func _physics_process(delta: float) -> void:
 	else:                  grav = G_NORMAL
 
 	# ── AIR STALL ─────────────────────────────────────────
-	# BUG FIX: added `not on_wall` — previously the stall could fire while
-	# wall-sliding (at_apex passes there), wasting it with no meaningful effect.
 	if Input.is_action_just_pressed("ui_accept") and at_apex \
 			and not air_stall_used and jumps_left == 0 and not on_wall:
 		velocity.y     = -175.0
@@ -674,7 +665,9 @@ func _physics_process(delta: float) -> void:
 				attack_area.scale.x = -1.0 if dir < 0.0 else 1.0
 			else:
 				velocity.x = move_toward(velocity.x, 0.0, AIR_STOP * delta)
-			if not is_climbing and not on_wall:
+			# ANIM FIX: was playing _jump unconditionally in air — overrode attack
+			# animations mid-combo whenever the player was airborne.
+			if not is_climbing and not on_wall and not is_attacking:
 				character.play(skin + "_jump")
 
 	# ── TILT ──────────────────────────────────────────────
@@ -805,8 +798,10 @@ func _physics_process(delta: float) -> void:
 	elif damaged:
 		character.play(skin + "_hit")
 		damaged = false
-
-	if on_wall and is_climbing:
+	# ANIM FIX: was two separate `if` blocks — the wall check always ran after
+	# damaged, immediately clobbering the _hit anim with _grab or _wallslide.
+	# Changed to `elif` so hit takes priority and wall anims only fire otherwise.
+	elif on_wall and is_climbing:
 		character.play(skin + "_grab")
 	elif on_wall:
 		character.play(skin + "_wallslide")
@@ -821,9 +816,6 @@ func _physics_process(delta: float) -> void:
 #  AFTERIMAGE
 # ═══════════════════════════════════════════════════════════
 func _ghost() -> void:
-	# BUG FIX: guard against dead state — _ghost() is scheduled via timer
-	# inside the dash loop; if the player dies mid-dash the node is being
-	# freed and adding a child to the parent is unsafe.
 	if is_dead:
 		return
 	if not character.sprite_frames:
@@ -890,9 +882,6 @@ func _wall_jump(wd: float) -> void:
 	coyote_timer     = 0.0
 	wall_lock        = 0.15
 	grip = minf(grip + GRIP_WALL_JUMP_RESTORE, GRIP_MAX)
-	# IMPROVEMENT: wall jump restores dash and full jumps — this is the
-	# standard expectation in platformers and makes wall-jumping feel
-	# rewarding rather than punishing.
 	can_dash   = true
 	jumps_left = MAX_JUMPS
 	_squash(0.38, 1.78)
@@ -924,14 +913,12 @@ func _pound_start() -> void:
 	_squash(1.68, 0.3)
 	_hit(0.12)
 	slowmo_timer = 0.22
+	# ANIM FIX: no animation was set for the pound fall — left whatever the
+	# previous frame was playing (usually _jump) for the entire drop.
+	character.play(skin + "_pound")
 
 func _pound_end() -> void:
 	is_pounding  = false
-	# BUG FIX: previously called `Engine.time_scale = 1.0` directly here,
-	# which snapped out of any active hitpause or slowmo_timer blend,
-	# causing a jarring instant speed restore. Now we simply clear
-	# slowmo_timer and let the lerp system in _physics_process restore
-	# time_scale smoothly (same fix pattern as the hitpause system).
 	slowmo_timer = 0.0
 	_squash(0.38, 1.2)
 	_hit(1.0)
@@ -1000,11 +987,6 @@ func _attack() -> void:
 	is_attacking = true
 	can_attack   = false
 
-	# BUG FIX: increment attack_id and capture it locally.
-	# If _on_hurtbox_body_entered cancels this attack mid-coroutine
-	# (by incrementing attack_id), every subsequent await-point will
-	# detect the mismatch and return, preventing stale collision_shape
-	# enables or zombie is_attacking state.
 	attack_id += 1
 	var my_id: int = attack_id
 
@@ -1021,6 +1003,8 @@ func _attack() -> void:
 		velocity.y  = -130.0
 		_hit(0.32)
 		_zpunch(0.11)
+		# ANIM FIX: charged attack had no animation at all.
+		character.play(skin + "_attack_charge")
 
 		await get_tree().create_timer(0.06 / spd_mul, true).timeout
 		if is_dead or attack_id != my_id:
@@ -1058,15 +1042,21 @@ func _attack() -> void:
 		1:
 			_squash(0.44, 1.62)
 			velocity.x += fwd * 90.0
+			# ANIM FIX: no combo animations existed — run/idle/jump would
+			# immediately override the attack because is_attacking wasn't
+			# checked in the air branch and the anim was never set here at all.
+			character.play(skin + "_attack1")
 		2:
 			_squash(1.52, 0.46)
 			velocity.x += fwd * 70.0
+			character.play(skin + "_attack2")
 		3:
 			_squash(0.34, 1.82)
 			velocity.x += fwd * 170.0
 			_hit(0.22)
 			_zpunch(0.08)
 			slowmo_timer = 0.06
+			character.play(skin + "_attack3")
 
 	var dur_a: float = (0.048 if combo < 3 else 0.075) / spd_mul
 	var dur_b: float = (0.12  if combo < 3 else 0.26)  / spd_mul
@@ -1149,11 +1139,6 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 	knockback = d * 320.0
 	knockback.y = clamp(knockback.y, -170.0, 260.0)
 
-	# BUG FIX: cancel any in-flight attack coroutine by invalidating its id.
-	# This ensures collision_shape is immediately disabled and is_attacking /
-	# can_attack are cleanly reset, so the player isn't locked out of attacking
-	# after being hit mid-combo. Previously the coroutine would continue running
-	# with collision_shape potentially active during iframes.
 	attack_id       += 1
 	is_attacking     = false
 	can_attack       = true

@@ -1,7 +1,20 @@
 [gd_scene format=3 uid="uid://dakhjnh0uo2t1"]
 
-[node name="Level2" type="Area2D" unique_id=1483769499]
+[ext_resource type="Script" uid="uid://4yea8tordvtn" path="res://Scripts/level_2.gd" id="1_smnlx"]
+[ext_resource type="Texture2D" uid="uid://ca1en64lf2f3w" path="res://End (Idle).png" id="1_v3rpw"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1301916331]
+[sub_resource type="CircleShape2D" id="CircleShape2D_cwurv"]
+radius = 18.0
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1733545356]
+[node name="level2" type="Area2D" unique_id=1016816020]
+script = ExtResource("1_smnlx")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1985639753]
+position = Vector2(-9.536743e-07, -3.999998)
+scale = Vector2(0.5546875, 0.5703125)
+texture = ExtResource("1_v3rpw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1787136045]
+modulate = Color(0.39264008, 0.3926401, 0.39264008, 1)
+position = Vector2(-1, 0)
+shape = SubResource("CircleShape2D_cwurv")

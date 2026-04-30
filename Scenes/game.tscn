@@ -26,6 +26,7 @@
 [ext_resource type="Script" uid="uid://kqihk6hp3nhl" path="res://Scripts/wind.gd" id="17_oeip8"]
 [ext_resource type="PackedScene" uid="uid://n68isac2futq" path="res://Scenes/wind_particle.tscn" id="18_85qyi"]
 [ext_resource type="PackedScene" uid="uid://cid5gdg1n7mqw" path="res://Scenes/spike.tscn" id="27_81klo"]
+[ext_resource type="PackedScene" uid="uid://dakhjnh0uo2t1" path="res://Scenes/level_2.tscn" id="27_tgy6u"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_81klo"]
 texture = ExtResource("2_22asu")
@@ -1626,8 +1627,12 @@ rotation = -1.5707964
 
 [node name="collectables" type="Node" parent="." unique_id=638420812]
 
+[node name="level2" parent="collectables" unique_id=1016816020 instance=ExtResource("27_tgy6u")]
+position = Vector2(-2276, -3148)
+
 [connection signal="body_entered" from="death" to="Player" method="_on_area_2d_body_entered"]
 [connection signal="pressed" from="UI/pause/PausePanel/VBoxContainer/resume" to="UI/pause" method="_on_resume_pressed"]
 [connection signal="pressed" from="UI/pause/PausePanel/VBoxContainer/main" to="UI/pause" method="_on_main_pressed"]
 [connection signal="pressed" from="UI/pause/PausePanel/VBoxContainer/quit" to="UI/pause" method="_on_quit_pressed"]
 [connection signal="body_entered" from="win" to="win" method="_on_body_entered"]
+[connection signal="body_entered" from="collectables/level2" to="collectables/level2" method="_on_body_entered"]

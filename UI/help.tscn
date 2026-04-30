@@ -1,10 +1,10 @@
-[gd_scene format=3 uid="uid://e517rkrv5vst"]
+[gd_scene format=3 uid="uid://e6s444ybkxnp"]
 
-[ext_resource type="Script" uid="uid://birdl8v2g2rbc" path="res://Scripts/ui.gd" id="1_3sbvi"]
-[ext_resource type="Texture2D" uid="uid://ni2ywdvh0ti7" path="res://paralax/background_2.png" id="3_3sbvi"]
-[ext_resource type="Texture2D" uid="uid://d1wd55d4qwwym" path="res://paralax/background_0.png" id="4_nm1m0"]
-[ext_resource type="Texture2D" uid="uid://b283hpr44fj3y" path="res://paralax/background_1.png" id="5_c7tqi"]
-[ext_resource type="FontFile" uid="uid://bmn7efysl0jc8" path="res://fonts/byte/ByteBounce.ttf" id="6_nm1m0"]
+[ext_resource type="Script" uid="uid://birdl8v2g2rbc" path="res://Scripts/ui.gd" id="1_bglu7"]
+[ext_resource type="FontFile" uid="uid://bmn7efysl0jc8" path="res://fonts/byte/ByteBounce.ttf" id="2_8dngk"]
+[ext_resource type="Texture2D" uid="uid://ni2ywdvh0ti7" path="res://paralax/background_2.png" id="3_2bpmf"]
+[ext_resource type="Texture2D" uid="uid://d1wd55d4qwwym" path="res://paralax/background_0.png" id="4_tshdi"]
+[ext_resource type="Texture2D" uid="uid://b283hpr44fj3y" path="res://paralax/background_1.png" id="5_0sjxw"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nm1m0"]
 
@@ -187,13 +187,6 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 corner_detail = 12
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4fiuh"]
-bg_color = Color(1, 0.22935726, 0.20285092, 0.36800003)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_4fiuh"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_h81ot"]
@@ -201,7 +194,7 @@ corner_radius_bottom_left = 10
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_cbfhl"]
 
 [node name="CanvasModulate" type="CanvasModulate" unique_id=1991018634]
-script = ExtResource("1_3sbvi")
+script = ExtResource("1_bglu7")
 
 [node name="bg" type="Node" parent="." unique_id=302930908]
 
@@ -209,19 +202,22 @@ script = ExtResource("1_3sbvi")
 
 [node name="label" type="Label" parent="." unique_id=1670765802]
 z_index = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -111.0
-offset_top = -243.0
-offset_right = 119.0
-offset_bottom = -174.0
-grow_horizontal = 0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -147.0
+offset_top = -275.5
+offset_right = 147.0
+offset_bottom = -206.5
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_colors/font_shadow_color = Color(1, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 4
 theme_override_constants/shadow_offset_y = 3
 theme_override_constants/shadow_outline_size = 10
-theme_override_fonts/font = ExtResource("6_nm1m0")
+theme_override_fonts/font = ExtResource("2_8dngk")
 theme_override_font_sizes/font_size = 100
 theme_override_styles/normal = SubResource("StyleBoxTexture_nm1m0")
 text = "Sudoers"
@@ -233,40 +229,24 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -157.0
-offset_top = -95.0
-offset_right = 122.0
-offset_bottom = 173.0
+offset_left = -141.0
+offset_top = 233.0
+offset_right = 138.0
+offset_bottom = 287.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_vertical = 8
 theme_override_constants/separation = 30
 
 [node name="main" type="Button" parent="VBoxContainer" unique_id=931196148]
 process_mode = 3
 layout_mode = 2
+size_flags_vertical = 8
 theme_override_constants/outline_size = 10
 theme_override_fonts/font = SubResource("FontFile_c7tqi")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_cbfhl")
-text = "START"
-
-[node name="HELP" type="Button" parent="VBoxContainer" unique_id=1792735983]
-process_mode = 3
-layout_mode = 2
-theme_override_constants/outline_size = 10
-theme_override_fonts/font = SubResource("FontFile_c7tqi")
-theme_override_font_sizes/font_size = 30
-theme_override_styles/normal = SubResource("StyleBoxFlat_cbfhl")
-text = "HELP"
-
-[node name="quit" type="Button" parent="VBoxContainer" unique_id=576549246]
-process_mode = 3
-layout_mode = 2
-theme_override_constants/outline_size = 10
-theme_override_fonts/font = SubResource("FontFile_c7tqi")
-theme_override_font_sizes/font_size = 30
-theme_override_styles/normal = SubResource("StyleBoxFlat_4fiuh")
-text = "QUIT"
+text = "BACK"
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="." unique_id=842470313]
 layer = -1
@@ -288,7 +268,7 @@ visibility_layer = 2
 material = SubResource("CanvasItemMaterial_4fiuh")
 position = Vector2(131, 0)
 scale = Vector2(2, 2)
-texture = ExtResource("4_nm1m0")
+texture = ExtResource("4_tshdi")
 
 [node name="Background2" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer" unique_id=944928994]
 modulate = Color(0.22091639, 0.22091639, 0.22091639, 1)
@@ -297,7 +277,7 @@ visibility_layer = 2
 material = SubResource("CanvasItemMaterial_4fiuh")
 position = Vector2(702, 3.287936e-05)
 scale = Vector2(2, 2)
-texture = ExtResource("4_nm1m0")
+texture = ExtResource("4_tshdi")
 
 [node name="Background3" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer" unique_id=1891280418]
 modulate = Color(0.22091639, 0.22091639, 0.22091639, 1)
@@ -306,7 +286,7 @@ visibility_layer = 2
 material = SubResource("CanvasItemMaterial_4fiuh")
 position = Vector2(1273, 0)
 scale = Vector2(2, 2)
-texture = ExtResource("4_nm1m0")
+texture = ExtResource("4_tshdi")
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground" unique_id=235135049]
 position = Vector2(3.3151168e-06, -69.5)
@@ -320,7 +300,7 @@ visibility_layer = 1023
 material = SubResource("CanvasItemMaterial_h81ot")
 position = Vector2(131, 0)
 scale = Vector2(2, 2)
-texture = ExtResource("5_c7tqi")
+texture = ExtResource("5_0sjxw")
 
 [node name="Background2" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2" unique_id=1120908599]
 modulate = Color(0.22091639, 0.22091639, 0.22091639, 1)
@@ -329,7 +309,7 @@ visibility_layer = 1023
 material = SubResource("CanvasItemMaterial_h81ot")
 position = Vector2(707, 4.579153e-06)
 scale = Vector2(2, 2)
-texture = ExtResource("5_c7tqi")
+texture = ExtResource("5_0sjxw")
 
 [node name="Background3" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2" unique_id=718486360]
 modulate = Color(0.22091639, 0.22091639, 0.22091639, 1)
@@ -338,37 +318,47 @@ visibility_layer = 1023
 material = SubResource("CanvasItemMaterial_h81ot")
 position = Vector2(1273, 0)
 scale = Vector2(2, 2)
-texture = ExtResource("5_c7tqi")
+texture = ExtResource("5_0sjxw")
 
-[node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground" unique_id=1381601633]
-position = Vector2(1.3594356e-06, -28.5)
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground" unique_id=2102156095]
+position = Vector2(3.3151168e-06, -69.5)
 motion_scale = Vector2(1.5, 1.6)
 motion_mirroring = Vector2(576, 0)
 
-[node name="Background" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3" unique_id=680298583]
+[node name="Background" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3" unique_id=2010496855]
 modulate = Color(0.22091639, 0.22091639, 0.22091639, 1)
 light_mask = 1023
 material = SubResource("CanvasItemMaterial_cbfhl")
 position = Vector2(131, 6.2486397e-06)
 scale = Vector2(2, 2)
-texture = ExtResource("3_3sbvi")
+texture = ExtResource("3_2bpmf")
 
-[node name="Background2" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3" unique_id=1531265806]
+[node name="Background2" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3" unique_id=585847036]
 modulate = Color(0.22091639, 0.22091639, 0.22091639, 1)
 light_mask = 1023
 material = SubResource("CanvasItemMaterial_cbfhl")
 position = Vector2(705, 4.4837543e-06)
 scale = Vector2(2, 2)
-texture = ExtResource("3_3sbvi")
+texture = ExtResource("3_2bpmf")
 
-[node name="Background3" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3" unique_id=905612956]
+[node name="Background3" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3" unique_id=1222854756]
 modulate = Color(0.22091639, 0.22091639, 0.22091639, 1)
 light_mask = 1023
 material = SubResource("CanvasItemMaterial_cbfhl")
 position = Vector2(1273, 0)
 scale = Vector2(2, 2)
-texture = ExtResource("3_3sbvi")
+texture = ExtResource("3_2bpmf")
 
-[connection signal="pressed" from="VBoxContainer/main" to="." method="_on_main_pressed"]
-[connection signal="pressed" from="VBoxContainer/HELP" to="." method="_on_help_pressed"]
-[connection signal="pressed" from="VBoxContainer/quit" to="." method="_on_quit_pressed"]
+[node name="Label" type="Label" parent="." unique_id=1590241244]
+offset_left = -574.0
+offset_top = -143.0
+offset_right = 575.0
+offset_bottom = 199.0
+theme_override_font_sizes/font_size = 26
+text = "Arrow keys to move
+E to attack
+
+that's it hope you get access to root"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="VBoxContainer/main" to="." method="_on_main_pressed_backed"]
