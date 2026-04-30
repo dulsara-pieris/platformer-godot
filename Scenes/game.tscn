@@ -812,7 +812,7 @@ position = Vector2(-215, -2650)
 
 [node name="Player" parent="." unique_id=1975332787 instance=ExtResource("2_qxrlw")]
 modulate = Color(0.19434929, 0.19434926, 0.19434926, 1)
-position = Vector2(122.00001, 384.00003)
+position = Vector2(122.00001, 257)
 scale = Vector2(1.5, 1.5)
 
 [node name="PointLight2D2" type="PointLight2D" parent="Player" unique_id=919205293]
@@ -875,7 +875,7 @@ position = Vector2(25, 1152)
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="death" unique_id=22155463]
 position = Vector2(-560, 147)
-polygon = PackedVector2Array(-11624, -4895, -2307, -4905, -2366, -2639, -502, -2539, -534, -40, 1688, 255, 3029, 326, 3043, -1567, 4188, -1549, 4094, -3686, 9496, -3573, 16323, -3573, 16873, 7932, 12978, 8364, 8318, 8021, 4673, 8107, 2755, 7888, -10722, 7825)
+polygon = PackedVector2Array(-10772, -4479, -2503, -4387, -2366, -2639, -502, -2539, -534, -40, 1688, 255, 3029, 326, 3043, -1567, 4188, -1549, 4094, -3686, 9496, -3573, 16323, -3573, 16873, 7932, 12978, 8364, 8318, 8021, 4673, 8107, 2755, 7888, -10722, 7825)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1568618386]
 
@@ -1461,6 +1461,72 @@ position = Vector2(464.00003, 135)
 [node name="enemy8" parent="enemie" unique_id=605318223 instance=ExtResource("5_i6g32")]
 position = Vector2(553, 118)
 
+[node name="enemy3" parent="enemie" unique_id=178360942 instance=ExtResource("5_i6g32")]
+position = Vector2(2262, -972)
+
+[node name="enemy4" parent="enemie" unique_id=14776173 instance=ExtResource("5_i6g32")]
+position = Vector2(2532, -1053)
+
+[node name="enemy9" parent="enemie" unique_id=1567205660 instance=ExtResource("5_i6g32")]
+position = Vector2(1515, -859)
+
+[node name="enemy10" parent="enemie" unique_id=368308711 instance=ExtResource("5_i6g32")]
+position = Vector2(1756, -1963)
+
+[node name="enemy11" parent="enemie" unique_id=498277350 instance=ExtResource("5_i6g32")]
+position = Vector2(500, -1388)
+
+[node name="enemy12" parent="enemie" unique_id=92096009 instance=ExtResource("5_i6g32")]
+position = Vector2(300, -1423)
+
+[node name="enemy14" parent="enemie" unique_id=1272451519 instance=ExtResource("5_i6g32")]
+position = Vector2(603, -1858)
+
+[node name="enemy16" parent="enemie" unique_id=1588036295 instance=ExtResource("5_i6g32")]
+position = Vector2(565, -1626)
+
+[node name="enemy17" parent="enemie" unique_id=808556318 instance=ExtResource("5_i6g32")]
+position = Vector2(233, -1563)
+
+[node name="enemy18" parent="enemie" unique_id=1492352770 instance=ExtResource("5_i6g32")]
+position = Vector2(361, -2153)
+
+[node name="enemy19" parent="enemie" unique_id=1595387157 instance=ExtResource("5_i6g32")]
+position = Vector2(967, -3881)
+
+[node name="enemy20" parent="enemie" unique_id=1330467820 instance=ExtResource("5_i6g32")]
+position = Vector2(743.99994, -1959)
+
+[node name="enemy21" parent="enemie" unique_id=2123902245 instance=ExtResource("5_i6g32")]
+position = Vector2(-1644, -3144)
+
+[node name="enemy22" parent="enemie" unique_id=440188600 instance=ExtResource("5_i6g32")]
+position = Vector2(-1915, -3139)
+
+[node name="enemy23" parent="enemie" unique_id=151754496 instance=ExtResource("5_i6g32")]
+position = Vector2(604.99994, -2849)
+
+[node name="enemy24" parent="enemie" unique_id=550060870 instance=ExtResource("5_i6g32")]
+position = Vector2(-86.000046, -2671)
+
+[node name="enemy25" parent="enemie" unique_id=158228986 instance=ExtResource("5_i6g32")]
+position = Vector2(-712, -2546)
+
+[node name="enemy27" parent="enemie" unique_id=1399530848 instance=ExtResource("5_i6g32")]
+position = Vector2(-1344, -3138)
+
+[node name="enemy30" parent="enemie" unique_id=682691748 instance=ExtResource("5_i6g32")]
+position = Vector2(382, -2849)
+
+[node name="enemy34" parent="enemie" unique_id=2057380014 instance=ExtResource("5_i6g32")]
+position = Vector2(360, -2153)
+
+[node name="enemy35" parent="enemie" unique_id=482298816 instance=ExtResource("5_i6g32")]
+position = Vector2(1225, -1965)
+
+[node name="enemy37" parent="enemie" unique_id=156698482 instance=ExtResource("5_i6g32")]
+position = Vector2(1690, -1477)
+
 [node name="win" type="Area2D" parent="." unique_id=1713807568]
 visible = false
 position = Vector2(2530, -58)
@@ -1504,9 +1570,6 @@ position = Vector2(1636, -1948)
 [node name="spike8" parent="spikes" unique_id=1629248704 instance=ExtResource("27_81klo")]
 position = Vector2(1595, -203)
 
-[node name="spike9" parent="spikes" unique_id=464688497 instance=ExtResource("27_81klo")]
-position = Vector2(357, -2101)
-
 [node name="spike12" parent="spikes" unique_id=438222201 instance=ExtResource("27_81klo")]
 position = Vector2(614, -2816)
 
@@ -1533,10 +1596,6 @@ rotation = 4.712389
 position = Vector2(661, -1734)
 rotation = 4.712389
 
-[node name="spike23" parent="spikes" unique_id=1836940159 instance=ExtResource("27_81klo")]
-position = Vector2(155, -2208.0002)
-rotation = 1.5707964
-
 [node name="spike10" parent="spikes" unique_id=1279586326 instance=ExtResource("27_81klo")]
 position = Vector2(-1032, -2264.0002)
 
@@ -1561,77 +1620,11 @@ position = Vector2(-450, -2264.0002)
 [node name="spike21" parent="spikes" unique_id=264401166 instance=ExtResource("27_81klo")]
 position = Vector2(-354, -2264.0002)
 
-[node name="enemy" parent="." unique_id=178360942 instance=ExtResource("5_i6g32")]
-position = Vector2(2261, -972)
+[node name="spike25" parent="spikes" unique_id=1624690027 instance=ExtResource("27_81klo")]
+position = Vector2(-364.00003, -2853)
+rotation = -1.5707964
 
-[node name="enemy2" parent="." unique_id=14776173 instance=ExtResource("5_i6g32")]
-position = Vector2(2531, -1053)
-
-[node name="enemy3" parent="." unique_id=1567205660 instance=ExtResource("5_i6g32")]
-position = Vector2(1514, -859)
-
-[node name="enemy5" parent="." unique_id=368308711 instance=ExtResource("5_i6g32")]
-position = Vector2(1755, -1963)
-
-[node name="enemy7" parent="." unique_id=498277350 instance=ExtResource("5_i6g32")]
-position = Vector2(499, -1388)
-
-[node name="enemy8" parent="." unique_id=92096009 instance=ExtResource("5_i6g32")]
-position = Vector2(299, -1423)
-
-[node name="enemy9" parent="." unique_id=476384900 instance=ExtResource("5_i6g32")]
-position = Vector2(423, -1528)
-
-[node name="enemy10" parent="." unique_id=1272451519 instance=ExtResource("5_i6g32")]
-position = Vector2(602, -1858)
-
-[node name="enemy11" parent="." unique_id=834611676 instance=ExtResource("5_i6g32")]
-position = Vector2(272, -1776)
-
-[node name="enemy12" parent="." unique_id=1588036295 instance=ExtResource("5_i6g32")]
-position = Vector2(564, -1626)
-
-[node name="enemy13" parent="." unique_id=808556318 instance=ExtResource("5_i6g32")]
-position = Vector2(232, -1563)
-
-[node name="enemy14" parent="." unique_id=1492352770 instance=ExtResource("5_i6g32")]
-position = Vector2(360, -2153)
-
-[node name="enemy15" parent="." unique_id=1595387157 instance=ExtResource("5_i6g32")]
-position = Vector2(966, -3881)
-
-[node name="enemy17" parent="." unique_id=1330467820 instance=ExtResource("5_i6g32")]
-position = Vector2(742.99994, -1959)
-
-[node name="enemy18" parent="." unique_id=2123902245 instance=ExtResource("5_i6g32")]
-position = Vector2(-1641, -3170)
-
-[node name="enemy19" parent="." unique_id=440188600 instance=ExtResource("5_i6g32")]
-position = Vector2(-1850, -3241)
-
-[node name="enemy20" parent="." unique_id=151754496 instance=ExtResource("5_i6g32")]
-position = Vector2(603.99994, -2849)
-
-[node name="enemy21" parent="." unique_id=550060870 instance=ExtResource("5_i6g32")]
-position = Vector2(-87.000046, -2671)
-
-[node name="enemy24" parent="." unique_id=158228986 instance=ExtResource("5_i6g32")]
-position = Vector2(-713, -2546)
-
-[node name="enemy27" parent="." unique_id=1399530848 instance=ExtResource("5_i6g32")]
-position = Vector2(-1331, -3167)
-
-[node name="enemy30" parent="." unique_id=682691748 instance=ExtResource("5_i6g32")]
-position = Vector2(381, -2849)
-
-[node name="enemy34" parent="." unique_id=2057380014 instance=ExtResource("5_i6g32")]
-position = Vector2(359, -2153)
-
-[node name="enemy35" parent="." unique_id=482298816 instance=ExtResource("5_i6g32")]
-position = Vector2(1224, -1965)
-
-[node name="enemy37" parent="." unique_id=156698482 instance=ExtResource("5_i6g32")]
-position = Vector2(1689, -1477)
+[node name="collectables" type="Node" parent="." unique_id=638420812]
 
 [connection signal="body_entered" from="death" to="Player" method="_on_area_2d_body_entered"]
 [connection signal="pressed" from="UI/pause/PausePanel/VBoxContainer/resume" to="UI/pause" method="_on_resume_pressed"]

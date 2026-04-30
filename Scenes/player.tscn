@@ -1,9 +1,8 @@
 [gd_scene format=3 uid="uid://bxkks7rx41qy8"]
 
 [ext_resource type="Script" uid="uid://b0iqhikvc10hb" path="res://Scripts/player.gd" id="1_cvnsp"]
+[ext_resource type="Texture2D" uid="uid://cv7b7ag06br2c" path="res://adventurer-v1.5-Sheet.png" id="2_gymyn"]
 [ext_resource type="Texture2D" uid="uid://s5ohhvaolf1y" path="res://Knight_player_1.4/Knight_player/Idle_KG_1.png" id="2_vgqql"]
-[ext_resource type="Texture2D" uid="uid://dvo3ct13aj88t" path="res://individual_sheets/male_hero-idle_turn.png" id="2_x3wgy"]
-[ext_resource type="Texture2D" uid="uid://cr0n4blgbklps" path="res://individual_sheets/male_hero-walk.png" id="3_3smsa"]
 [ext_resource type="Texture2D" uid="uid://deksykq302fxu" path="res://Knight_player_1.4/Knight_player/Jump_KG_1.png" id="3_fkybt"]
 [ext_resource type="Texture2D" uid="uid://bko5nhhmow6pl" path="res://Knight_player_1.4/Knight_player/Grab_idle_KG_1.png" id="4_8erm5"]
 [ext_resource type="Texture2D" uid="uid://bpfspdyw42vu1" path="res://Knight_player_1.4/Knight_player/Dying_KG_1.png" id="4_f1ek2"]
@@ -14,60 +13,60 @@
 [ext_resource type="Texture2D" uid="uid://bvko6gnmvq3be" path="res://Knight_player_1.4/Knight_player/Ledge_Grab_KG_1.png" id="11_pu2lt"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vfarp"]
-atlas = ExtResource("2_x3wgy")
-region = Rect2(0, 0, 128, 128)
+atlas = ExtResource("2_gymyn")
+region = Rect2(0, 0, 48, 37)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y6uwr"]
-atlas = ExtResource("2_x3wgy")
-region = Rect2(128, 0, 128, 128)
+atlas = ExtResource("2_gymyn")
+region = Rect2(48, 0, 48, 37)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_83xs0"]
-atlas = ExtResource("2_x3wgy")
-region = Rect2(256, 0, 128, 128)
+atlas = ExtResource("2_gymyn")
+region = Rect2(96, 0, 48, 37)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_36dho"]
-atlas = ExtResource("2_x3wgy")
-region = Rect2(384, 0, 128, 128)
+atlas = ExtResource("2_gymyn")
+region = Rect2(144, 0, 48, 37)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yh6i2"]
-atlas = ExtResource("3_3smsa")
-region = Rect2(0, 0, 128, 128)
+atlas = ExtResource("2_gymyn")
+region = Rect2(192, 0, 48, 37)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nv4vc"]
-atlas = ExtResource("3_3smsa")
-region = Rect2(128, 0, 128, 128)
+atlas = ExtResource("2_gymyn")
+region = Rect2(240, 0, 48, 37)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8gxox"]
-atlas = ExtResource("3_3smsa")
-region = Rect2(256, 0, 128, 128)
+atlas = ExtResource("2_gymyn")
+region = Rect2(288, 0, 48, 37)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_11gg7"]
-atlas = ExtResource("3_3smsa")
-region = Rect2(384, 0, 128, 128)
+atlas = ExtResource("2_gymyn")
+region = Rect2(0, 37, 48, 37)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qpa8y"]
-atlas = ExtResource("3_3smsa")
-region = Rect2(512, 0, 128, 128)
+atlas = ExtResource("2_gymyn")
+region = Rect2(48, 37, 48, 37)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sbwqj"]
-atlas = ExtResource("3_3smsa")
-region = Rect2(640, 0, 128, 128)
+atlas = ExtResource("2_gymyn")
+region = Rect2(96, 37, 48, 37)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xwi16"]
-atlas = ExtResource("3_3smsa")
-region = Rect2(768, 0, 128, 128)
+atlas = ExtResource("2_gymyn")
+region = Rect2(144, 37, 48, 37)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sweqm"]
-atlas = ExtResource("3_3smsa")
-region = Rect2(896, 0, 128, 128)
+atlas = ExtResource("2_gymyn")
+region = Rect2(192, 37, 48, 37)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ph33w"]
-atlas = ExtResource("3_3smsa")
-region = Rect2(1024, 0, 128, 128)
+atlas = ExtResource("2_gymyn")
+region = Rect2(240, 37, 48, 37)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7ldla"]
-atlas = ExtResource("3_3smsa")
-region = Rect2(1152, 0, 128, 128)
+atlas = ExtResource("2_gymyn")
+region = Rect2(288, 37, 48, 37)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3vlem"]
 atlas = ExtResource("4_f1ek2")
@@ -263,12 +262,7 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_36dho")
-}],
-"loop": true,
-"name": &"boy_idle",
-"speed": 5.0
 }, {
-"frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_yh6i2")
 }, {
@@ -277,7 +271,12 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_8gxox")
+}],
+"loop": true,
+"name": &"boy_idle",
+"speed": 5.0
 }, {
+"frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_11gg7")
 }, {
@@ -480,7 +479,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cvnsp"]
-radius = 6.0
+radius = 3.0
+height = 12.0
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fkybt"]
 properties/0/path = NodePath(".:position")
@@ -576,18 +576,17 @@ radius = 14.0
 radius = 20.024984
 
 [node name="Player" type="CharacterBody2D" unique_id=1975332787 groups=["Player"]]
-scale = Vector2(0.01, 0.01)
 script = ExtResource("1_cvnsp")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=955836603]
 position = Vector2(1, 1.1920929e-07)
 scale = Vector2(0.5625, 0.53125)
 sprite_frames = SubResource("SpriteFrames_x3wgy")
-animation = &"girl_wallslide"
+animation = &"boy_idle"
 autoplay = "girl_idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1930001022]
-position = Vector2(1, -2)
+position = Vector2(1, 1)
 shape = SubResource("CapsuleShape2D_cvnsp")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1782335216]
@@ -607,18 +606,19 @@ length = 15
 metadata/_custom_type_script = "uid://bxnna3cr2gukw"
 
 [node name="JumpDust" type="AnimatedSprite2D" parent="." unique_id=1859823308]
-visible = false
 position = Vector2(0, 2)
 sprite_frames = SubResource("SpriteFrames_wpjfl")
 animation = &"fall"
 
 [node name="Hurtbox" type="Area2D" parent="." unique_id=1471472795]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=781454797]
 position = Vector2(-1, 1)
 shape = SubResource("CircleShape2D_cvnsp")
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=539934073]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=1532861806]
 position = Vector2(0, 2)

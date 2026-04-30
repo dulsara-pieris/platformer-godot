@@ -27,7 +27,8 @@ const AIR_STOP:     float = 460.0
 const TERMINAL_VEL: float = 1050.0
 
 # ── double-tap dash (no extra button) ──────────────────────
-const DTAP_WINDOW: float = 0.18
+# IMPROVEMENT: window widened 0.18 → 0.22 for a more forgiving feel on keyboard.
+const DTAP_WINDOW: float = 0.22
 var dtap_timer:    float = 0.0
 var dtap_last_dir: float = 0.0
 var dtap_armed:    bool  = false
@@ -59,14 +60,14 @@ var slide_dir:     float = 1.0
 # ═══════════════════════════════════════════════════════════
 #  JUMP
 # ═══════════════════════════════════════════════════════════
-const JUMP_VEL:       float   = -540.0
+const JUMP_VEL:       float   = -940.0
 const JUMP_HOLD:      float   = -2200.0
 const JUMP_HOLD_TIME: float   = 0.15
-const JUMP_CUT:       float   = 0.46
+const JUMP_CUT:       float   = 1
 const WALL_JUMP_VEL:  Vector2 = Vector2(370.0, -510.0)
-const WALL_SLIDE_SPD: float   = 52.0
+const WALL_SLIDE_SPD: float   = 10.0
 const COYOTE:         float   = 0.14
-const J_BUFFER:       float   = 0.14
+const J_BUFFER:       float   = 0.5
 const MAX_JUMPS:      int     = 2
 const BUNNY_WINDOW:   float   = 0.13
 const BUNNY_BOOST:    float   = 1.22
@@ -83,10 +84,10 @@ var bunny_timer:     float = 0.0
 # ═══════════════════════════════════════════════════════════
 #  GRAVITY
 # ═══════════════════════════════════════════════════════════
-const G_NORMAL:   float = 2.5
-const G_RISE:     float = 1.25
+const G_NORMAL:   float = 3.5
+const G_RISE:     float = 2.5
 const G_APEX:     float = 0.38
-const G_FASTFALL: float = 5.2
+const G_FASTFALL: float = 10
 const G_WALL:     float = 0.1
 const APEX_RANGE: float = 78.0
 var grav:         float = 2.5
@@ -117,6 +118,12 @@ var is_pounding:    bool  = false
 # ═══════════════════════════════════════════════════════════
 var is_attacking: bool  = false
 var can_attack:   bool  = true
+
+# BUG FIX: attack_id is incremented each time a new attack starts.
+# The coroutine captures its own id and returns early if it no longer matches,
+# preventing stale collision_shape enables / dirty is_attacking state after
+# damage interrupts an in-flight combo.
+var attack_id: int = 0
 
 var combo:          int   = 0
 var combo_timer:    float = 0.0
@@ -159,10 +166,6 @@ const SLOWMO_SCALE:   float = 0.2
 const SLOWMO_RESTORE: float = 18.0
 
 # ── hitpause (short freeze on hit, separate from slowmo) ───
-# BUG FIX: was using Engine.time_scale = 1.0 directly in
-# _on_attack_area_body_entered which snapped out of any active
-# slowmo_timer. Now uses a dedicated hitpause timer that
-# blends with the existing slowmo system.
 var hitpause_timer: float = 0.0
 const HITPAUSE_DUR:  float = 0.032
 const HITPAUSE_SCALE:float = 0.03
@@ -333,6 +336,9 @@ func _ready() -> void:
 	zoom_tgt       = ZOOM_BASE
 	idle_timer     = 0.0
 	shake_t        = 0.0
+	# IMPROVEMENT: skin_scale is constant at runtime — set once here
+	# instead of writing GameManager.skin_scale every physics frame.
+	GameManager.skin_scale = skin_scale
 	_new_wind()
 
 # ═══════════════════════════════════════════════════════════
@@ -343,9 +349,6 @@ func _physics_process(delta: float) -> void:
 		return
 
 	# ── HITPAUSE ──────────────────────────────────────────
-	# BUG FIX: hitpause is now managed here so it doesn't
-	# fight with slowmo_timer or snap Engine.time_scale = 1.0
-	# when slowmo is still active.
 	if hitpause_timer > 0.0:
 		hitpause_timer -= delta
 		Engine.time_scale = lerp(Engine.time_scale, HITPAUSE_SCALE, 30.0 * delta)
@@ -374,7 +377,6 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 		return
 
-	GameManager.skin_scale = skin_scale
 	skin    = GameManager.skin
 	ability = GameManager.ability
 
@@ -434,7 +436,11 @@ func _physics_process(delta: float) -> void:
 
 	if Input.is_action_just_pressed("ui_left") or Input.is_action_just_pressed("ui_right"):
 		var tap_dir: float = -1.0 if Input.is_action_just_pressed("ui_left") else 1.0
-		if dtap_armed and tap_dir == dtap_last_dir and can_dash and not is_dashing and not is_dash_frozen:
+		# BUG FIX: added `not is_sliding` and `not is_attacking` — previously
+		# a dash could fire mid-slide or mid-combo, breaking animation state.
+		if dtap_armed and tap_dir == dtap_last_dir and can_dash \
+				and not is_dashing and not is_dash_frozen \
+				and not is_sliding and not is_attacking:
 			_queue_dash(tap_dir)
 			dtap_armed    = false
 			dtap_last_dir = 0.0
@@ -475,14 +481,14 @@ func _physics_process(delta: float) -> void:
 		elif not Input.is_action_pressed("attack"):
 			atk_hold    = 0.0
 			is_charging = false
-			# BUG FIX: if the player taps attack during charge wind-up but
-			# releases before CHARGE_TIME, charge_ready could be left true
-			# from a prior interrupted charge. Clear it here.
 			if not is_attacking:
 				charge_ready = false
 
 	# ── SLIDE: down + running on floor ────────────────────
-	if Input.is_action_just_pressed("ui_down") and on_floor and absf(velocity.x) > 70.0 and not is_sliding:
+	# BUG FIX: added `not is_attacking` — previously a slide could start
+	# mid-combo, breaking the attack coroutine's animation state.
+	if Input.is_action_just_pressed("ui_down") and on_floor \
+			and absf(velocity.x) > 70.0 and not is_sliding and not is_attacking:
 		_slide()
 
 	if is_sliding:
@@ -493,7 +499,10 @@ func _physics_process(delta: float) -> void:
 			tx = 0.5; ty = 0.5
 
 	# ── GROUND POUND: down in air ─────────────────────────
-	if Input.is_action_just_pressed("ui_down") and not on_floor and not is_pounding and not is_climbing:
+	# BUG FIX: added `not is_attacking` — pounding mid-attack left
+	# the attack coroutine running with an undefined motion context.
+	if Input.is_action_just_pressed("ui_down") and not on_floor \
+			and not is_pounding and not is_climbing and not is_attacking:
 		_pound_start()
 	if is_pounding and on_floor:
 		_pound_end()
@@ -506,6 +515,11 @@ func _physics_process(delta: float) -> void:
 
 	# ── ATTACK ────────────────────────────────────────────
 	if Input.is_action_just_pressed("attack") and not is_charging:
+		# IMPROVEMENT: attacking while sliding cancels the slide —
+		# gives the player meaningful agency over momentum vs. combat.
+		if is_sliding:
+			is_sliding = false
+			tx = 0.5; ty = 0.5
 		_attack()
 
 	# ── JUMP BUFFER ───────────────────────────────────────
@@ -513,7 +527,6 @@ func _physics_process(delta: float) -> void:
 		j_buffer_timer = J_BUFFER
 		parry_timer    = PARRY_WINDOW
 	else:
-		# BUG FIX: clamp to 0 so it never drifts negative
 		j_buffer_timer = maxf(j_buffer_timer - delta, 0.0)
 
 	# ── COYOTE ────────────────────────────────────────────
@@ -576,7 +589,10 @@ func _physics_process(delta: float) -> void:
 	else:                  grav = G_NORMAL
 
 	# ── AIR STALL ─────────────────────────────────────────
-	if Input.is_action_just_pressed("ui_accept") and at_apex and not air_stall_used and jumps_left == 0:
+	# BUG FIX: added `not on_wall` — previously the stall could fire while
+	# wall-sliding (at_apex passes there), wasting it with no meaningful effect.
+	if Input.is_action_just_pressed("ui_accept") and at_apex \
+			and not air_stall_used and jumps_left == 0 and not on_wall:
 		velocity.y     = -175.0
 		air_stall_used = true
 		_squash(1.18, 0.74)
@@ -638,10 +654,6 @@ func _physics_process(delta: float) -> void:
 		var spd: float = SPEED * momentum
 		if wall_lock > 0.0:
 			pass
-		# BUG FIX: was `on_floor or on_wall`, which would play _run/_idle on
-		# the wall and then immediately overwrite with _grab/_wallslide below.
-		# Now only the grounded branch runs ground movement; wall movement is
-		# handled solely in the animation block.
 		elif on_floor and not on_wall:
 			if dir != 0.0:
 				velocity.x = dir * spd
@@ -662,7 +674,6 @@ func _physics_process(delta: float) -> void:
 				attack_area.scale.x = -1.0 if dir < 0.0 else 1.0
 			else:
 				velocity.x = move_toward(velocity.x, 0.0, AIR_STOP * delta)
-			# Only show jump anim when truly airborne (not on wall)
 			if not is_climbing and not on_wall:
 				character.play(skin + "_jump")
 
@@ -790,13 +801,11 @@ func _physics_process(delta: float) -> void:
 	# ── ANIM STATES ───────────────────────────────────────
 	if GameManager.health <= 0:
 		die()
-		return  # BUG FIX: was missing — without this, code below still runs
+		return
 	elif damaged:
 		character.play(skin + "_hit")
 		damaged = false
 
-	# Wall animations — placed AFTER horizontal movement so they
-	# are the final write to character.play() this frame.
 	if on_wall and is_climbing:
 		character.play(skin + "_grab")
 	elif on_wall:
@@ -812,7 +821,12 @@ func _physics_process(delta: float) -> void:
 #  AFTERIMAGE
 # ═══════════════════════════════════════════════════════════
 func _ghost() -> void:
-	if not character.sprite_frames:  # BUG FIX: guard against missing sprite frames
+	# BUG FIX: guard against dead state — _ghost() is scheduled via timer
+	# inside the dash loop; if the player dies mid-dash the node is being
+	# freed and adding a child to the parent is unsafe.
+	if is_dead:
+		return
+	if not character.sprite_frames:
 		return
 	var g: Sprite2D = Sprite2D.new()
 	g.texture          = character.sprite_frames.get_frame_texture(character.animation, character.frame)
@@ -858,7 +872,6 @@ func _wall_hop() -> void:
 	is_jumping       = true
 	jump_hold_timer  = JUMP_HOLD_TIME * 0.7
 	j_buffer_timer   = 0.0
-	# BUG FIX: clear coyote so a floor jump can't fire the same frame
 	coyote_timer     = 0.0
 	grip = maxf(grip - 0.22, 0.0)
 	if grip <= 0.0:
@@ -874,10 +887,14 @@ func _wall_jump(wd: float) -> void:
 	is_jumping       = true
 	jump_hold_timer  = JUMP_HOLD_TIME * 0.6
 	j_buffer_timer   = 0.0
-	# BUG FIX: clear coyote so a floor jump can't also trigger
 	coyote_timer     = 0.0
 	wall_lock        = 0.15
 	grip = minf(grip + GRIP_WALL_JUMP_RESTORE, GRIP_MAX)
+	# IMPROVEMENT: wall jump restores dash and full jumps — this is the
+	# standard expectation in platformers and makes wall-jumping feel
+	# rewarding rather than punishing.
+	can_dash   = true
+	jumps_left = MAX_JUMPS
 	_squash(0.38, 1.78)
 	_hit(0.22)
 	_zpunch(0.05)
@@ -909,9 +926,13 @@ func _pound_start() -> void:
 	slowmo_timer = 0.22
 
 func _pound_end() -> void:
-	is_pounding       = false
-	slowmo_timer      = 0.0
-	Engine.time_scale = 1.0
+	is_pounding  = false
+	# BUG FIX: previously called `Engine.time_scale = 1.0` directly here,
+	# which snapped out of any active hitpause or slowmo_timer blend,
+	# causing a jarring instant speed restore. Now we simply clear
+	# slowmo_timer and let the lerp system in _physics_process restore
+	# time_scale smoothly (same fix pattern as the hitpause system).
+	slowmo_timer = 0.0
 	_squash(0.38, 1.2)
 	_hit(1.0)
 	_zpunch(0.13)
@@ -979,6 +1000,14 @@ func _attack() -> void:
 	is_attacking = true
 	can_attack   = false
 
+	# BUG FIX: increment attack_id and capture it locally.
+	# If _on_hurtbox_body_entered cancels this attack mid-coroutine
+	# (by incrementing attack_id), every subsequent await-point will
+	# detect the mismatch and return, preventing stale collision_shape
+	# enables or zombie is_attacking state.
+	attack_id += 1
+	var my_id: int = attack_id
+
 	var heat_r:  float = heat / 100.0
 	var spd_mul: float = 1.0 + heat_r * HEAT_ATK_BONUS
 	var fwd:     float = 1.0 if not character.flip_h else -1.0
@@ -994,18 +1023,16 @@ func _attack() -> void:
 		_zpunch(0.11)
 
 		await get_tree().create_timer(0.06 / spd_mul, true).timeout
-		# BUG FIX: check is_dead after every await — the scene may have
-		# reloaded while the coroutine was suspended, leaving `is_attacking`
-		# and `can_attack` in a dirty state on the new instance.
-		if is_dead:
+		if is_dead or attack_id != my_id:
 			return
 		collision_shape.disabled = false
 		await get_tree().create_timer(0.2 / spd_mul, true).timeout
-		if is_dead:
+		if is_dead or attack_id != my_id:
+			collision_shape.disabled = true
 			return
 		collision_shape.disabled = true
 		await get_tree().create_timer(0.3 / spd_mul, true).timeout
-		if is_dead:
+		if is_dead or attack_id != my_id:
 			return
 		charge_dmg_ready = false
 		is_attacking     = false
@@ -1045,15 +1072,16 @@ func _attack() -> void:
 	var dur_b: float = (0.12  if combo < 3 else 0.26)  / spd_mul
 
 	await get_tree().create_timer(dur_a, true).timeout
-	if is_dead:
+	if is_dead or attack_id != my_id:
 		return
 	collision_shape.disabled = false
 	await get_tree().create_timer(0.09 / spd_mul, true).timeout
-	if is_dead:
+	if is_dead or attack_id != my_id:
+		collision_shape.disabled = true
 		return
 	collision_shape.disabled = true
 	await get_tree().create_timer(dur_b, true).timeout
-	if is_dead:
+	if is_dead or attack_id != my_id:
 		return
 	is_attacking = false
 	can_attack   = true
@@ -1065,9 +1093,6 @@ func _on_attack_area_body_entered(body: Node2D) -> void:
 	if not body.is_in_group("enemy"):
 		return
 
-	# BUG FIX: previously set Engine.time_scale = 0.03 then awaited and
-	# snapped back to 1.0, which overwrote any ongoing slowmo_timer.
-	# Now uses hitpause_timer so _physics_process controls the blend.
 	hitpause_timer = HITPAUSE_DUR
 
 	var dmg: int = ability
@@ -1108,8 +1133,6 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 		can_dash     = true
 		jumps_left   = MAX_JUMPS
 		velocity.y   = -300.0
-		# BUG FIX: clear any stale charge state on parry so a queued
-		# charge_ready doesn't fire immediately after the parry
 		charge_ready     = false
 		charge_dmg_ready = false
 		_squash(1.45, 0.52)
@@ -1126,24 +1149,27 @@ func _on_hurtbox_body_entered(body: Node2D) -> void:
 	knockback = d * 320.0
 	knockback.y = clamp(knockback.y, -170.0, 260.0)
 
-	# BUG FIX: interrupt any active charge on damage so charge_ready
-	# doesn't silently persist through the hit-stun frames
+	# BUG FIX: cancel any in-flight attack coroutine by invalidating its id.
+	# This ensures collision_shape is immediately disabled and is_attacking /
+	# can_attack are cleanly reset, so the player isn't locked out of attacking
+	# after being hit mid-combo. Previously the coroutine would continue running
+	# with collision_shape potentially active during iframes.
+	attack_id       += 1
+	is_attacking     = false
+	can_attack       = true
+	collision_shape.disabled = true
+
 	atk_hold     = 0.0
 	is_charging  = false
 	charge_ready = false
+	charge_dmg_ready = false
 
 # ═══════════════════════════════════════════════════════════
 #  DEATH
 # ═══════════════════════════════════════════════════════════
 func die() -> void:
-	# BUG FIX: no guard existed — die() could be called multiple times in the
-	# same frame (e.g. health check in _physics_process AND a kill-zone signal
-	# firing simultaneously), calling reload_current_scene() twice and causing
-	# a crash or double-reload.
 	if is_dead:
 		return
 	is_dead = true
-	# Ensure collision_shape is disabled so no further hit signals fire
-	# while the reload is pending.
 	collision_shape.disabled = true
 	get_tree().reload_current_scene()
