@@ -451,8 +451,8 @@ func _physics_process(delta: float) -> void:
 		velocity = dash_dir * DASH_SPEED
 		if dash_dir.y >= 0.0:
 			velocity.y += get_gravity().y * delta * 0.22
-		# ANIM FIX: play dash anim here — was missing entirely because the
-		# early return below skipped all the animation code at the bottom.
+		# FIX: dash had no animation — the early return below this block skipped
+		# the entire anim section at the bottom of _physics_process.
 		character.play(skin + "_dash")
 		if dash_timer <= 0.0:
 			is_dashing = false
@@ -466,7 +466,9 @@ func _physics_process(delta: float) -> void:
 		if atk_hold >= CHARGE_TIME and not is_charging:
 			is_charging = true
 			tx = 0.4; ty = 0.62
-			# ANIM FIX: charging state had squash/stretch but never played an anim.
+			# FIX: charge anim was never set. Godot's play() does not restart an
+			# already-playing animation, so calling it once on transition is correct —
+			# it keeps playing each subsequent frame without needing to be called again.
 			character.play(skin + "_charge")
 	else:
 		if is_charging and atk_hold >= CHARGE_TIME:
@@ -481,15 +483,18 @@ func _physics_process(delta: float) -> void:
 				charge_ready = false
 
 	# ── SLIDE: down + running on floor ────────────────────
+	# FIX: added `not is_charging` — previously you could start a slide while
+	# holding charge, leaving is_charging = true with no clean resolution.
 	if Input.is_action_just_pressed("ui_down") and on_floor \
-			and absf(velocity.x) > 70.0 and not is_sliding and not is_attacking:
+			and absf(velocity.x) > 70.0 and not is_sliding \
+			and not is_attacking and not is_charging:
 		_slide()
 
 	if is_sliding:
 		slide_timer -= delta
 		velocity.x   = move_toward(velocity.x, 0.0, SLIDE_DRAG * delta)
-		# ANIM FIX: the `if not is_sliding:` block below skips all movement
-		# anims when sliding, but nothing was playing a slide anim to fill the gap.
+		# FIX: slide had no animation. The `if not is_sliding:` movement block
+		# below is entirely skipped during slide, so nothing was setting an anim.
 		character.play(skin + "_slide")
 		if slide_timer <= 0.0 or absf(velocity.x) < 35.0:
 			is_sliding = false
@@ -640,7 +645,12 @@ func _physics_process(delta: float) -> void:
 	var wind_inf: float = 1.0 if not on_floor else 0.09
 	velocity += wind_vel * wind_inf * delta
 
-	# ── HORIZONTAL ────────────────────────────────────────
+	# ── HORIZONTAL + MOVEMENT ANIMATION ───────────────────
+	# Anim priority inside this block (lowest wins first, highest plays last):
+	#   _jump < _run/_idle
+	# States that outrank all of these are guarded by their own flags below:
+	#   slide (handled above, this block skipped via `if not is_sliding`)
+	#   attack / charge / pound  →  `not is_attacking`, `not is_charging`, `not is_pounding`
 	if not is_sliding:
 		var spd: float = SPEED * momentum
 		if wall_lock > 0.0:
@@ -648,16 +658,23 @@ func _physics_process(delta: float) -> void:
 		elif on_floor and not on_wall:
 			if dir != 0.0:
 				velocity.x = dir * spd
-				if not is_attacking:
+				# FIX: added `not is_charging` — charge anim was overwritten by _run
+				# every frame because is_charging is a separate flag from is_attacking
+				# and only the latter was being checked.
+				if not is_attacking and not is_charging:
 					character.speed_scale = lerp(0.85, 1.75, absf(velocity.x) / SPEED)
 					character.play(skin + "_run")
 				character.flip_h    = dir < 0.0
 				attack_area.scale.x = -1.0 if dir < 0.0 else 1.0
 			else:
-				velocity.x = move_toward(velocity.x, 0.0, GROUND_STOP * delta)
-				character.speed_scale = 1.0
-				if not is_attacking:
+				# FIX: `speed_scale = 1.0` was unconditional — it reset the speed of
+				# attack and charge animations every frame while standing still, making
+				# heat-boosted attacks play at 1.0x regardless of the spd_mul factor.
+				# FIX: added `not is_charging` to the idle play for the same reason as run.
+				if not is_attacking and not is_charging:
+					character.speed_scale = 1.0
 					character.play(skin + "_idle")
+				velocity.x = move_toward(velocity.x, 0.0, GROUND_STOP * delta)
 		else:
 			if dir != 0.0:
 				velocity.x = move_toward(velocity.x, dir * spd * AIR_CONTROL, spd * 8.0 * delta)
@@ -665,10 +682,17 @@ func _physics_process(delta: float) -> void:
 				attack_area.scale.x = -1.0 if dir < 0.0 else 1.0
 			else:
 				velocity.x = move_toward(velocity.x, 0.0, AIR_STOP * delta)
-			# ANIM FIX: was playing _jump unconditionally in air — overrode attack
-			# animations mid-combo whenever the player was airborne.
-			if not is_climbing and not on_wall and not is_attacking:
-				character.play(skin + "_jump")
+			# FIX: added `not is_pounding` — _pound_start() plays _pound but then
+			# this line overwrote it with _jump every single subsequent frame because
+			# is_pounding was never checked here.
+			# FIX: added `not is_charging` — airborne charging showed _jump instead
+			# of the _charge anim for the same reason.
+			# FIX: speed_scale is reset to 1.0 when airborne so that a high run
+			# speed_scale (up to 1.75) doesn't bleed into jump/attack animations.
+			if not is_attacking and not is_charging and not is_pounding:
+				character.speed_scale = 1.0
+				if not is_climbing and not on_wall:
+					character.play(skin + "_jump")
 
 	# ── TILT ──────────────────────────────────────────────
 	spd_ratio = absf(velocity.x) / SPEED
@@ -791,19 +815,27 @@ func _physics_process(delta: float) -> void:
 	# ── GRIP HUD ──────────────────────────────────────────
 	GameManager.grip = grip
 
-	# ── ANIM STATES ───────────────────────────────────────
+	# ── ANIM STATES (runs last — highest priority) ────────
+	# This block is an elif chain so each state is mutually exclusive.
+	# Execution order = priority order: health check → hit → wall-grab → wall-slide.
+	# Anything not matched here lets the anim set earlier in the frame stand.
+	#
+	# FIX: wall grab and wall-slide were plain `if` blocks that ran every frame
+	# AFTER `damaged`, silently overwriting _hit with _grab/_wallslide on the
+	# same frame the hit anim was set. Converted to `elif` so hit wins.
+	#
+	# FIX: added `not is_attacking and not is_charging` guards to both wall anims.
+	# Attacking while wall-climbing previously showed _grab every frame because
+	# the wall check had zero awareness of combat state.
 	if GameManager.health <= 0:
 		die()
 		return
 	elif damaged:
 		character.play(skin + "_hit")
 		damaged = false
-	# ANIM FIX: was two separate `if` blocks — the wall check always ran after
-	# damaged, immediately clobbering the _hit anim with _grab or _wallslide.
-	# Changed to `elif` so hit takes priority and wall anims only fire otherwise.
-	elif on_wall and is_climbing:
+	elif (on_wall and is_climbing) and not is_attacking and not is_charging:
 		character.play(skin + "_grab")
-	elif on_wall:
+	elif on_wall and not is_attacking and not is_charging:
 		character.play(skin + "_wallslide")
 
 	if GameManager.animation == "power":
@@ -913,8 +945,8 @@ func _pound_start() -> void:
 	_squash(1.68, 0.3)
 	_hit(0.12)
 	slowmo_timer = 0.22
-	# ANIM FIX: no animation was set for the pound fall — left whatever the
-	# previous frame was playing (usually _jump) for the entire drop.
+	# FIX: pound had no animation. The air movement block also now has
+	# `not is_pounding` so _jump can no longer overwrite this each frame.
 	character.play(skin + "_pound")
 
 func _pound_end() -> void:
@@ -990,6 +1022,12 @@ func _attack() -> void:
 	attack_id += 1
 	var my_id: int = attack_id
 
+	# FIX: reset speed_scale at attack start. If the player was running fast,
+	# speed_scale could be as high as 1.75, making the attack anim play at that
+	# speed for the whole combo window even though heat-based spd_mul is applied
+	# to the timer durations, not speed_scale. Starting at 1.0 is correct.
+	character.speed_scale = 1.0
+
 	var heat_r:  float = heat / 100.0
 	var spd_mul: float = 1.0 + heat_r * HEAT_ATK_BONUS
 	var fwd:     float = 1.0 if not character.flip_h else -1.0
@@ -1003,7 +1041,7 @@ func _attack() -> void:
 		velocity.y  = -130.0
 		_hit(0.32)
 		_zpunch(0.11)
-		# ANIM FIX: charged attack had no animation at all.
+		# FIX: charge finisher had no animation.
 		character.play(skin + "_attack_charge")
 
 		await get_tree().create_timer(0.06 / spd_mul, true).timeout
@@ -1038,13 +1076,13 @@ func _attack() -> void:
 	combo       = (combo % COMBO_MAX) + 1
 	combo_timer = COMBO_WINDOW
 
+	# FIX: no per-combo animations existed. The movement block guards
+	# (`not is_attacking`) now correctly prevent _run/_idle/_jump from
+	# overriding these, so the anims will play and hold for the full duration.
 	match combo:
 		1:
 			_squash(0.44, 1.62)
 			velocity.x += fwd * 90.0
-			# ANIM FIX: no combo animations existed — run/idle/jump would
-			# immediately override the attack because is_attacking wasn't
-			# checked in the air branch and the anim was never set here at all.
 			character.play(skin + "_attack1")
 		2:
 			_squash(1.52, 0.46)

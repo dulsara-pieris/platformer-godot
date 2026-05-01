@@ -793,8 +793,6 @@ corner_radius_bottom_left = 10
 [sub_resource type="CircleShape2D" id="CircleShape2D_v158k"]
 radius = 26.019224
 
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_7t8sx"]
-
 [node name="Game" type="Node2D" unique_id=531747769]
 position = Vector2(1, 0)
 script = ExtResource("1_i6g32")
@@ -1546,11 +1544,6 @@ script = ExtResource("9_h4fw4")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="win" unique_id=641005803]
 position = Vector2(-2411, 204)
 shape = SubResource("CircleShape2D_v158k")
-
-[node name="LightOccluder2D" type="LightOccluder2D" parent="." unique_id=899644988]
-occluder = SubResource("OccluderPolygon2D_7t8sx")
-
-[node name="abilities" type="Node" parent="." unique_id=759037370]
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="." unique_id=1245745068]
 position = Vector2(25, 420)
