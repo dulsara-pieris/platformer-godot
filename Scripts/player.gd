@@ -62,11 +62,15 @@ var slide_dir:     float = 1.0
 const JUMP_VEL:       float   = -940.0
 const JUMP_HOLD:      float   = -2200.0
 const JUMP_HOLD_TIME: float   = 0.15
-const JUMP_CUT:       float   = 1
+# FIX: was 1.0 — multiplying by 1 is a no-op, so releasing jump early had
+# zero effect. 0.42 gives a responsive short-hop vs full-jump feel.
+const JUMP_CUT:       float   = 0.42
 const WALL_JUMP_VEL:  Vector2 = Vector2(370.0, -510.0)
 const WALL_SLIDE_SPD: float   = 10.0
 const COYOTE:         float   = 0.14
-const J_BUFFER:       float   = 0.5
+# FIX: was 0.5 — a 500ms window kept the buffer alive long enough that
+# UP→DOWN→UP always triggered a free double-jump mid-air.
+const J_BUFFER:       float   = 0.12
 const MAX_JUMPS:      int     = 2
 const BUNNY_WINDOW:   float   = 0.13
 const BUNNY_BOOST:    float   = 1.22
@@ -85,10 +89,13 @@ var bunny_timer:     float = 0.0
 # ═══════════════════════════════════════════════════════════
 const G_NORMAL:   float = 3.5
 const G_RISE:     float = 2.5
-const G_APEX:     float = 0.38
+# FIX: was 0.38 — nearly zero gravity over a wide band kept the player
+# floating at peak for too long, compounding the UP->DOWN->UP re-jump feel.
+const G_APEX:     float = 0.62
 const G_FASTFALL: float = 10
 const G_WALL:     float = 0.1
-const APEX_RANGE: float = 78.0
+# FIX: was 78.0 — tighter window means less time spent in the floaty apex zone.
+const APEX_RANGE: float = 52.0
 var grav:         float = 2.5
 
 # ═══════════════════════════════════════════════════════════
@@ -575,7 +582,10 @@ func _physics_process(delta: float) -> void:
 	# ── GRAVITY ───────────────────────────────────────────
 	var at_apex:   bool = absf(velocity.y) < APEX_RANGE and not on_floor and not is_climbing \
 						  and not Input.is_action_pressed("ui_down")
-	var fast_fall: bool = Input.is_action_pressed("ui_down") and not on_floor and not is_pounding and velocity.y > 0.0
+	# FIX: was `velocity.y > 0.0` — pressing down while still rising (velocity.y < 0)
+	# never triggered fast_fall, so the player was stuck with near-zero G_APEX gravity
+	# at the top of the arc instead of dropping. -80 threshold means "near or past apex."
+	var fast_fall: bool = Input.is_action_pressed("ui_down") and not on_floor and not is_pounding and velocity.y > -80.0
 
 	if is_pounding:        grav = 0.0
 	elif is_climbing:      grav = 0.0
@@ -587,8 +597,13 @@ func _physics_process(delta: float) -> void:
 	else:                  grav = G_NORMAL
 
 	# ── AIR STALL ─────────────────────────────────────────
+	# FIX: added `j_buffer_timer > J_BUFFER * 0.7` — stall only fires within the
+	# first ~35ms of the UP press (when it was just-pressed). Previously a buffered
+	# UP from before the down-cancel could still satisfy `just_pressed` one frame
+	# later and waste the air stall unintentionally.
 	if Input.is_action_just_pressed("ui_accept") and at_apex \
-			and not air_stall_used and jumps_left == 0 and not on_wall:
+			and not air_stall_used and jumps_left == 0 and not on_wall \
+			and j_buffer_timer > J_BUFFER * 0.7:
 		velocity.y     = -175.0
 		air_stall_used = true
 		_squash(1.18, 0.74)
@@ -618,6 +633,16 @@ func _physics_process(delta: float) -> void:
 	if is_jumping and Input.is_action_pressed("ui_down"):
 		jump_hold_timer = 0.0
 		is_jumping      = false
+		# FIX: the root cause of UP->DOWN->UP float.
+		# 1. Clear j_buffer so the next UP press is treated as a fresh input,
+		#    not a continuation of a 500ms-old buffered jump.
+		# 2. Cut upward velocity to 30% — without this the player keeps rising
+		#    to a full apex under G_RISE, sits in the (now tighter) apex zone,
+		#    and pressing UP again fires a double-jump that reads as "floating."
+		#    30% still feels like a meaningful arc cut, not a snap-to-floor.
+		j_buffer_timer = 0.0
+		if velocity.y < 0.0:
+			velocity.y *= 0.30
 
 	if is_jumping and Input.is_action_pressed("ui_accept"):
 		if jump_hold_timer > 0.0:
