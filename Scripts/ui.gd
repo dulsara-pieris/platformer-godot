@@ -1,5 +1,10 @@
 extends CanvasModulate
 
+@onready var bg_sound: AudioStreamPlayer2D = $AudioStreamPlayer2D
+
+func _ready():
+	bg_sound.play()
+
 
 func _on_main_pressed() -> void:
 	get_tree().change_scene_to_file("res://Scenes/game.tscn")

@@ -22,12 +22,11 @@
 [ext_resource type="Texture2D" uid="uid://c8m0fq8ju36up" path="res://platformer_metroidvania asset pack v1.01/hud elements/health_hud_left.png" id="10_ewbju"]
 [ext_resource type="PackedScene" uid="uid://d3a2whi7xdv7g" path="res://Scenes/heart_growth.tscn" id="10_fkdbe"]
 [ext_resource type="Texture2D" uid="uid://bbjin7nhseckt" path="res://platformer_metroidvania asset pack v1.01/hud elements/health_hud_middle.png" id="11_85qyi"]
-[ext_resource type="AudioStream" uid="uid://difbp7n1l563p" path="res://sounds/Ambient Wind Sound #ASMRnature.mp3" id="11_o5yvi"]
+[ext_resource type="AudioStream" uid="uid://s5c0084ut4tw" path="res://sounds/Ambient Wind Sound #ASMRnature.mp3" id="11_o5yvi"]
 [ext_resource type="Script" uid="uid://kqihk6hp3nhl" path="res://Scripts/wind.gd" id="17_oeip8"]
 [ext_resource type="PackedScene" uid="uid://n68isac2futq" path="res://Scenes/wind_particle.tscn" id="18_85qyi"]
 [ext_resource type="PackedScene" uid="uid://cid5gdg1n7mqw" path="res://Scenes/spike.tscn" id="27_81klo"]
 [ext_resource type="PackedScene" uid="uid://dakhjnh0uo2t1" path="res://Scenes/level_2.tscn" id="27_tgy6u"]
-[ext_resource type="Texture2D" uid="uid://dpiu7y13bmyvl" path="res://drawing.svg" id="28_tgy6u"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_81klo"]
 texture = ExtResource("2_22asu")
@@ -794,30 +793,6 @@ corner_radius_bottom_left = 10
 [sub_resource type="CircleShape2D" id="CircleShape2D_v158k"]
 radius = 26.019224
 
-[sub_resource type="Curve" id="Curve_tgy6u"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="Curve" id="Curve_cwurv"]
-_data = [Vector2(0, 0.42493087), 0.0, 0.0, 0, 0, Vector2(0.16979435, 1), 0.0, 0.0, 0, 0, Vector2(0.4897042, 0), 0.0, 0.0, 0, 0, Vector2(0.70959514, 1), 0.0, 0.0, 0, 0, Vector2(0.98326087, 0.50641626), 0.0, 0.0, 0, 0]
-point_count = 5
-
-[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_mucmn"]
-curve_x = SubResource("Curve_tgy6u")
-curve_y = SubResource("Curve_cwurv")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_81klo"]
-particle_flag_disable_z = true
-emission_shape = 3
-emission_box_extents = Vector3(200, 1000, 1)
-spread = 0.0
-initial_velocity_min = 8.3
-initial_velocity_max = 430.78
-directional_velocity_min = 1.0
-directional_velocity_max = 1.0
-directional_velocity_curve = SubResource("CurveXYZTexture_mucmn")
-gravity = Vector3(0, 0, 0)
-
 [node name="Game" type="Node2D" unique_id=531747769]
 position = Vector2(1, 0)
 script = ExtResource("1_i6g32")
@@ -918,6 +893,7 @@ layer = -1
 transform = Transform2D(1, -4.7699523e-08, 4.7699523e-08, 1, 0, 0)
 
 [node name="ParallaxLayer5" type="ParallaxLayer" parent="ParallaxBackground" unique_id=1555522397]
+position = Vector2(0, 1)
 rotation = -3.1415925
 motion_scale = Vector2(1.5, 1)
 motion_mirroring = Vector2(576, 0)
@@ -935,7 +911,7 @@ visible = false
 motion_mirroring = Vector2(500, 0)
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground" unique_id=242439274]
-motion_scale = Vector2(1, 1.2)
+motion_scale = Vector2(1, 1.5)
 motion_mirroring = Vector2(576, 0)
 
 [node name="Background" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer" unique_id=328826292]
@@ -966,7 +942,7 @@ scale = Vector2(2, 2)
 texture = ExtResource("8_7nbq1")
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground" unique_id=50179334]
-motion_scale = Vector2(1.3, 1.4)
+motion_scale = Vector2(1.3, 1.7)
 motion_mirroring = Vector2(576, 0)
 
 [node name="Background" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2" unique_id=103967034]
@@ -1657,15 +1633,6 @@ rotation = -1.5707964
 
 [node name="level2" parent="collectables" unique_id=1016816020 instance=ExtResource("27_tgy6u")]
 position = Vector2(-2276, -3148)
-
-[node name="paticles" type="Node" parent="." unique_id=1030976561]
-
-[node name="GPUParticles2D" type="GPUParticles2D" parent="paticles" unique_id=945921193]
-amount = 5
-texture = ExtResource("28_tgy6u")
-trail_enabled = true
-trail_lifetime = 0.5
-process_material = SubResource("ParticleProcessMaterial_81klo")
 
 [connection signal="body_entered" from="death" to="Player" method="_on_area_2d_body_entered"]
 [connection signal="pressed" from="UI/pause/PausePanel/VBoxContainer/resume" to="UI/pause" method="_on_resume_pressed"]
